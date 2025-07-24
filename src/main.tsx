@@ -86,6 +86,7 @@ const App = () => (
           <Route path="/categories" element={<Categories />} />
           <Route path="/edit-categories" element={<EditCategory />} />
           <Route path="/add-categories" element={<AddCategory />} />
+          <Route path="/edit-categories/:id" element={<AddCategory />} />
 
           <Route path="/product-management" element={<ProXshopProducts />} />
           <Route path="/pro-product-details" element={<ProProductDetails />} />
