@@ -75,7 +75,7 @@ const UserDetails: React.FC = () => {
                             <Image
                                 crossOrigin='anonymous'
                                 preview={false}
-                                src={UPLOADS_URL + user?.licensePhoto}
+                                src={user?.licensePhoto ? `${UPLOADS_URL}${user?.licensePhoto}` : "/images/user.png"}
                             />
                         </Col>
 

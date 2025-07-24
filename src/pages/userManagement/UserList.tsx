@@ -1,9 +1,9 @@
-import { Button, Card, Dropdown, Input, Menu, Modal, Table, message } from 'antd';
-import { Edit, Eye, Search, Trash, X } from 'lucide-react';
+import { Button, Card, Input, Modal, Table, message } from 'antd';
+import { Eye, Search, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/Common.css';
 import { useGetAllusersQuery } from '../../redux/services/userManagementSlice';
+import '../../styles/Common.css';
 
 const { Search: AntSearch } = Input;
 
@@ -15,12 +15,6 @@ const UserList: React.FC = () => {
 
   const [paginationConfig, setPaginationConfig] = useState({ page: 1, limit: 10 });
   const { data, isLoading } = useGetAllusersQuery({ ...paginationConfig, keyword: searchText });
-
-
-  const showDeleteConfirm = (record: any) => {
-    setUserToDelete(record);
-    setIsModalVisible(true);
-  };
 
   const handleDelete = () => {
     message.success(`User "${userToDelete?.name}" deleted`);
@@ -64,24 +58,13 @@ const UserList: React.FC = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (_: any, record: any) => {
-        const menu = (
-          <Menu>
-            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate(`/users/userdetails/${record._id}`)}>
-              Edit
-            </Menu.Item>
-            <Menu.Item key="delete" icon={<Trash size={16} />} onClick={() => showDeleteConfirm(record)}>
-              Ban
-            </Menu.Item>
-          </Menu>
-        );
-        return (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <Button icon={<Eye size={16} />} />
-          </Dropdown>
-        );
-      },
-    },
+      render: (_: any, record: any) => (
+        <Button
+          icon={<Eye size={16} />}
+          onClick={() => navigate(`/users/userdetails/${record._id}`)}
+        />
+      ),
+    }
   ];
 
 
