@@ -1,0 +1,425 @@
+.golden-bg{
+background: var(--primary-button) !important;
+}
+.page-container {
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+p{
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.table-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  transition: color 0.3s;
+}
+
+.action-button.edit:hover {
+  color: var(--primary-color);
+}
+
+.action-button.delete:hover {
+  color: var(--error-color);
+}
+
+.data-table .ant-table {
+  background-color: transparent;
+}
+
+.data-table .ant-table-thead > tr > th {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.data-table .ant-table-tbody > tr > td {
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+
+.data-table .ant-table-tbody > tr:hover > td {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--primary-color);
+}
+
+.ant-pagination-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-light) !important;
+}
+
+.ant-pagination-item a {
+  color: var(--text-secondary) !important;
+}
+
+.ant-pagination-item-active {
+  border-color: var(--primary-button) !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--primary-button) !important;
+}
+
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-light) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Form styles */
+.form-container {
+  max-width: 800px;
+}
+
+.form-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.form-card .ant-card-head {
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.form-card .ant-card-head-title {
+  color: var(--text-primary);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.custom-input {
+  margin-bottom: 16px;
+  color: var(--text-primary) !important;
+  font-weight: bold;
+  border-radius: 8px;
+  width: 100%;
+  height: 45px;
+  padding: 0 10px !important;
+  border:1px solid var(--border-color) !important;
+}
+
+.tag-section .ant-select-selector, .tag-section .ant-select-selector {
+  margin-bottom: 16px;
+  color: var(--text-primary) !important;
+  font-weight: bold;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 45px !important;
+  height: auto !important;
+  padding: 0 10px !important;
+  border:1px solid var(--border-color) !important;
+}
+
+.user-info-row .document-list {
+  margin-top: 8px;
+  color: var(--text-primary) !important;
+  padding: 0 !important;
+}
+.page-container label{
+  color: var(--text-primary);
+  margin: 0 0 10px;
+  display: inline-block;
+}
+.user-info-row h4{
+  color: var(--text-primary);
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 100%; /* 18px */
+text-transform: uppercase;
+margin: 25px 0 15px;
+}
+
+.excel-responsive-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+  min-width: 600px;
+}
+
+.excel-table th,
+.excel-table td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: left;
+  color: var(--text-primary);
+  min-width: 100px;
+}
+.excel-table td label span{
+  font-weight: bold;
+}
+.custom-invoice-field {
+  width: 100%;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+  color: var(--text-primary) !important;
+  padding: 10px 15px;
+  text-align: center;
+  -moz-appearance: textfield; /* Remove spinner for Firefox */
+}
+
+.custom-invoice-field::-webkit-outer-spin-button,
+.custom-invoice-field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.excel-table td:has(.ant-input) {
+  padding: 0;
+}
+
+.excel-responsive-wrapper .ant-input-outlined:focus,
+.excel-responsive-wrapper .ant-input-outlined:hover {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.anticon{
+  color: var(--text-primary) !important;
+}
+.ant-btn-icon .anticon{
+  color: var(--primary-color) !important;
+}
+.date-carousel {
+  display: flex;
+  flex: 1;
+  overflow-x: hidden;
+  gap: 8px;
+}
+
+.date-carousel button {
+  flex: 1 1 auto;
+  min-width: 80px;
+  height: 75px;
+  white-space: nowrap;
+}
+/* 
+.calender .ant-tabs-nav{
+  display: none !important;
+} */
+.calender .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+  color: var(--text-primary);
+}
+.active-date{
+  background: var(--primary-button-hover) ;
+  border: 2px solid var(--primary-button-hover) ;
+filter: drop-shadow(0px 4px 40px rgba(0, 0, 0, 0.10));
+padding:24px 12px;
+color: var(--primary-color);
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+.inactive-date{
+  background: var(--primary-color) ;
+  border: 2px solid var(--text-primary);
+filter: drop-shadow(0px 4px 40px rgba(0, 0, 0, 0.10));
+padding:24px 12px;
+color: var(--text-primary);
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+::placeholder{
+  color: var(--text-primary) !important;
+}
+.ant-picker-outlined:focus-within, .ant-picker-outlined:hover, .ant-picker-outlined{
+  background: var(--primary-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.page-container .tab-container .ant-tabs {
+  border-bottom: none;
+}
+
+.page-container .tab-container .ant-tabs-nav {
+  margin: 0;
+  border: none !important;
+  margin: 0 0 25px;
+}
+
+.page-container .tab-container .ant-tabs-nav-list {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.page-container .tab-container .ant-tabs-tab {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #B3B3B3;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.page-container .tab-container .ant-tabs-tab-active {
+  background-color: #1e44d3;
+  color: #ffffff !important;
+}
+
+.page-container .tab-container .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #ffffff !important;
+}
+
+.page-container .tab-container .ant-tabs-tab:hover {
+  background-color: #1e44d3;
+  color: #ffffff;
+}
+
+.page-container .tab-container .ant-tabs-ink-bar {
+  display: none !important;
+}
+.page-container  .tab-container .ant-tabs-nav::before{
+  border-bottom: none;
+}
+.page-container {
+  padding: 24px;
+}
+
+label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 4px;
+}
+.checkbox-group-wrapper .ant-checkbox-group{
+  display: block !important;
+}
+.custom-textarea,
+.ant-select {
+  width: 100%;
+  margin-bottom: 16px;
+
+}
+.ant-select-selector{ 
+  border: 0 !important;
+}
+
+.ant-input-outlined.ant-input-disabled, .ant-input-outlined[disabled]{
+  border: 0 !important;
+}
+.custom-textarea {
+  resize: none;
+}
+
+.custom-switch, .ant-switch.ant-switch-checked:hover {
+  margin-right: 8px;
+  background-color: #D9E4FF !important;
+}
+.ant-switch.ant-switch-checked:hover:not(.ant-switch-disabled), .ant-switch.ant-switch-checked{
+  background-color: var(--secondary-color) !important;
+}
+.custom-uploader {
+  background-color: #fafafa;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.sidebar-section, .form-section {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.checkbox-group-wrapper {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.custom-checkbox-group .ant-checkbox-wrapper {
+  display: block;
+  margin: 4px 0;
+  color: var(--text-primary);
+  
+}
+
+.custom-checkbox-group .ant-checkbox .ant-checkbox-inner {
+  display: inline-block;
+}
+
+.tag-section {
+  margin-top: 24px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.custom-checkbox {
+  margin-top: 12px;
+  display: flex !important;
+  align-items: center;
+}
+
+.footer-save-button {
+  margin-top: 32px;
+  text-align: left;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 767px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .table-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .ant-table {
+    overflow-x: auto;
+  }
+}

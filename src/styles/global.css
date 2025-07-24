@@ -1,0 +1,435 @@
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #6C7FD8;
+  --accent-color: #c1a080;
+  --success-color: #52c41a;
+  --warning-color: #faad14;
+  --error-color: #f5222d;
+  --primary-button: #1e44d3;
+  --primary-button-hover: #e89b00;
+
+  --primary-blue: #1677ff;
+
+  --bg-dark: #ffffff;
+  --bg-sidebar: #23282D;
+  --bg-card: #f5f5f5;
+  --bg-dropdown: #f5f5f5;
+
+  --text-primary: #686E7D;
+  --text-secondary: #6A6A6A;
+  --text-tertiary: rgba(0, 0, 0, 0.65);
+  --text-disabled: rgba(0, 0, 0, 0.3);
+
+  --border-color: rgba(0, 0, 0, 0.12);
+  --border-light: rgba(0, 0, 0, 0.06);
+
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-light: rgba(0, 0, 0, 0.06);
+
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 80px;
+  --topnav-height: 64px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  /* background-color: var(--bg-dark);
+  color: var(--text-primary); */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img {
+  max-width: 100%;
+  object-fit: cover;
+}
+.text-danger{
+  color: var(--error-color) !important;
+}
+.dangerbg{
+background: var(--error-color) !important;
+border: 1px solid var(--error-color) !important;
+}
+.text-left {
+  text-align: left !important;
+}
+.text-right {
+  text-align: right !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.d-flex {
+  display: flex !important;
+}
+.felx-start {
+  justify-content: flex-start !important;
+}
+.felx-end {
+  justify-content: flex-end !important;
+}
+.align-self-center {
+  align-self: center;
+}
+.justify-content-space-between {
+  justify-content: space-between !important;
+}
+.mainbtn {
+  border-radius: 6px;
+  border: 1px solid #1e44d3;
+  background: #1e44d3;
+  color: #fff !important;
+  height: auto;
+  min-width: 150px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.12);
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -ms-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+}
+.mainbtn span.svgbg {
+  padding: 6px 8px;
+  border-radius: 50%;
+  background: #fff;
+  width: 30px;
+}
+span.svgbg {
+  padding: 6px 8px;
+  border-radius: 50%;
+  background: #fff;
+  width: 30px;
+}
+.mainbtn svg {
+  fill: #1e44d3;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -ms-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+}
+
+.mainbtn:hover {
+  border: 1px solid #e89b00 !important;
+  background: #e89b00 !important;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -ms-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+}
+.mainbtn:hover svg {
+  fill: #e89b00;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -ms-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+}
+/* ANT DESIGN OVERRIDES */
+.ant-layout {
+  background-color: var(--bg-card) !important;
+}
+
+.ant-layout-sider {
+  background-color: var(--bg-sidebar)!important;
+}
+
+.ant-layout-header {
+  background-color: var(--bg-sidebar)!important;
+  border-bottom: 1px solid var(--border-light);
+}
+.ant-modal .ant-modal-content{
+  background-color: var(--primary-color) !important;
+}
+/* MENU STYLING */
+.ant-menu {
+  background-color: var(--bg-sidebar) !important;
+  color: white !important;
+}
+
+.ant-menu-item-selected {
+  background-color: var(--secondary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+.ant-menu-item:hover,
+.ant-menu-submenu-title:hover {
+  background-color: transparent !important;
+  color: var(--primary-blue) !important;
+}
+
+/* DROPDOWN STYLING */
+.ant-dropdown-menu {
+  background-color: var(--text-primary) !important;
+  border: 1px solid var(--border-color);
+}
+
+.ant-dropdown-menu-item:hover {
+  background-color: transparent !important;
+  color: var(--primary-blue) !important;
+}
+
+.ant-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+}
+
+.ant-btn-primary {
+  background-color: var(--primary-button) !important;
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  padding: 20px 25px !important;
+  border-radius: 6px !important;
+  box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.12) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--primary-button-hover) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* COMMON STYLES */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-item:hover {
+  background-color: transparent;
+  color: var(--primary-blue);
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  font-size: 12px;
+  line-height: 18px;
+  border-radius: 9px;
+  background-color: var(--error-color);
+  color: white;
+  text-align: center;
+}
+.logo-container svg {
+  width: 76px;
+}
+button.drawer-close-btn {
+  position: absolute;
+  right: 12px;
+  top: 23px;
+  z-index: 99999;
+  background: transparent;
+  border: 0;
+  color: var(--primary-color);
+}
+
+/* RESPONSIVE STYLES */
+@media screen and (max-width: 767px) {
+  :root {
+    --sidebar-width: var(--sidebar-collapsed-width);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+}
+
+/* login page css */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background:url(../public/images/login-bg.png) no-repeat center top;
+  background-size: cover;
+  
+}
+
+.auth-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Form styles */
+.auth-form .ant-form-item-label > label {
+  font-weight: 500;
+  color: #374151;
+}
+.auth-form .ant-checkbox-label{
+  color: var(--text-primary);
+}
+.auth-form .ant-form-item-label > label::after {
+  content: '*';
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.auth-form .ant-input,
+.auth-form .ant-input-password{
+  height: 42px;
+  border-radius: 6px;
+  padding: 10px 12px;
+
+}
+
+.form-row .ant-select-selector,
+.form-col .ant-select-selector {
+  height: 42px !important;
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  background-color:  var(--text-primary);
+}
+.page-container .ant-select-selector,
+.page-container .ant-select-selector{
+
+  display: flex;
+  align-items: center;
+  color: var(--text-primary) !important;
+  background-color: var(--primary-color)  !important;
+}
+.page-container .ant-input-outlined, .ant-modal-body .ant-input-outlined, .page-container .ant-input-number-input{
+  color: var(--text-primary) !important;
+  background-color: var(--primary-color)  !important;
+}
+.page-container .ant-card-body .ant-input-outlined{
+  background: transparent !important;
+}
+.page-container .ant-select-single.ant-select-open .ant-select-selection-item,
+.page-container .ant-form-item .ant-form-item-label >label {
+  color: var(--text-primary) !important;
+}
+.page-container .ant-typography.ant-typography-secondary, .page-container .ant-upload-text,
+.ant-modal-body .ant-typography{
+  color: var(--text-primary) !important;
+}
+.auth-form  .ant-upload.ant-upload-select{
+  width:100% ;
+}
+.auth-form .ant-input:focus,
+.auth-form .ant-input-password:focus {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.auth-button {
+  height: 42px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  margin-top: 1rem;
+}
+
+.auth-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Sign Up specific styles */
+.signup-container .auth-card {
+  max-width: 720px;
+}
+.auth-card .ant-checkbox-wrapper{
+  display: flex;
+  align-items: center;
+}
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.form-col {
+  flex: 1;
+}
+
+.upload-button {
+  width: 100%;
+  height: 42px;
+  border: 1px dashed #d1d5db;
+  background: #f9fafb;
+}
+
+.upload-button:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* Auth prompt styles */
+.auth-prompt {
+  text-align: center;
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+.auth-link {
+  padding: 0;
+  height: auto;
+  font-weight: 500;
+}
+
+/* Checkbox styles */
+.ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #2563eb;
+}
+
+/* Animations */
+
+.password-filed-login input{
+  margin-top: -10px;
+}
+@media (max-width: 640px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .auth-card {
+    padding: 1.5rem;
+  }
+}
+/* login page css end*/
