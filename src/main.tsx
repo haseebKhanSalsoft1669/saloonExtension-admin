@@ -23,6 +23,26 @@ import OrderDetails from './pages/orderManagement/orderDetails';
 
 
 import WishList from './pages/wishList';
+import WishListDetails from './pages/wishList/wishListDetails';
+
+import Resources from './pages/resources';
+
+import EducationList from './pages/education';
+import EditEducation from './pages/education/editEducation';
+
+import CouponManagement from './pages/couponManagement';
+
+import GiftCardManagement from './pages/giftCardManagement';
+
+import Community from './pages/community';
+import CommunityDetails from './pages/community/communityDetails';
+
+
+import UserProfile from './pages/profile';
+
+import Notifications from './pages/notification';
+import NotificationForm from './pages/notification/notificationForm';
+
 
 import Reports from './pages/reports';
 import ReportsDetails from './pages/reports/reportsDetails';
@@ -46,18 +66,16 @@ import InvoiceManagement from './pages/invoiceManagement';
 import FuelPrice from './pages/fuelPrice';
 import AddFuelPrice from './pages/fuelPrice/addFuelPrice';
 
-import UserProfile from './pages/profile';
 
-import Notifications from './pages/notification';
-import NotificationForm from './pages/notification/notificationForm';
 
 import Login from './pages/auth';
 import ChangePassword from './pages/auth/changePassword';
 import ForgetPassword from './pages/auth/forgetPassword';
 import SignUp from './pages/auth/signup';
 import { store } from './redux/store';
-import './styles/global.css';
+
 import VerifyCode from './pages/auth/verificationCode';
+import './styles/global.css';
 
 const { darkAlgorithm } = theme;
 
@@ -97,7 +115,27 @@ const App = () => (
           <Route path="/order-details" element={<OrderDetails />} />
 
           <Route path="/wishlist" element={<WishList />} />
+          <Route path="/wishlist-details" element={<WishListDetails />} />
 
+          <Route path="/resources" element={<Resources />} />
+
+          <Route path="/education" element={<EducationList />} />
+          <Route path="/edit-education" element={<EditEducation />} />
+
+          <Route path="/coupon-management" element={<CouponManagement />} />
+
+          <Route path="/gift-card-management" element={<GiftCardManagement />} />
+
+          <Route path="/community" element={<Community />} />
+          <Route path="/community-details" element={<CommunityDetails />} />
+
+
+
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/notifications/new" element={<NotificationForm />} />
+          <Route path="/notifications/:id/view" element={<NotificationForm />} />
+
+          <Route path="/profile" element={<UserProfile />} />
 
           
           <Route path="/View-reports" element={<Reports />} />
@@ -114,10 +152,8 @@ const App = () => (
           <Route path="/add-city" element={<AddCity />} />
           <Route path="/fuelPrices" element={<FuelPrice />} />
           <Route path="/add-fuel-prices" element={<AddFuelPrice />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/notifications/new" element={<NotificationForm />} />
-          <Route path="/notifications/:id/view" element={<NotificationForm />} />
+          
+          
           <Route path="*" element={<Dashboard />} />
          
         </Route>

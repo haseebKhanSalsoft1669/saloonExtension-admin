@@ -2,11 +2,16 @@
 import {
   Box,
   Boxes,
+  CopyPlus,
+  Gift,
+  GraduationCap,
   Heart,
   LayoutDashboard,
   LayoutList,
   PackagePlus,
+  TicketPercent,
   Users,
+  UsersRound,
 } from 'lucide-react';
 export const menuItems = [
   {
@@ -43,12 +48,42 @@ export const menuItems = [
     label: 'Orders Management',
     icon: <LayoutList  size={18} />,
   },
+  {
+    key: '/community',
+    label: 'Community',
+    icon: <UsersRound  size={18} />,
+  },
+  {
+    key: '/resources',
+    label: 'Resources',
+    icon: <CopyPlus  size={18} />,
+  },
+
+  {
+    key: '/education',
+    label: 'Education',
+    icon: <GraduationCap  size={18} />,
+  },
 
   {
     key: '/wishlist',
     label: 'Wishlist',
     icon: <Heart  size={18} />,
   },
+
+  {
+    key: '/coupon-management',
+    label: 'Coupon Management',
+    icon: <TicketPercent  size={18} />,
+  },
+
+  {
+    key: '/gift-card-management',
+    label: 'gift Card Management',
+    icon: <Gift  size={18} />,
+  },
+
+  
   
   // {
   //   key: '/reports',

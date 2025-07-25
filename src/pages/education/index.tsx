@@ -1,12 +1,12 @@
 import { Button, Card, Dropdown, Input, Menu, Modal, Table, message } from 'antd';
-import { Edit, Eye, Search, Trash, X } from 'lucide-react';
+import { Edit, Eye, Plus, Search, Trash, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Common.css';
 
 const { Search: AntSearch } = Input;
 
-const WishList: React.FC = () => {
+const EducationList: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userToDelete, setUserToDelete] = useState<any>(null);
@@ -15,38 +15,38 @@ const WishList: React.FC = () => {
   const userData = [
     {
       id: 1,
-      wishlistcount: '2 items',
+      location: 'ORD001',
       name: 'John Smith',
-      email: 'john.smith@example.com',
-      lastUpdated: '2023-05-01',
+      instagramHandle: 'john.smith@example.com',
+      designation: '2023-05-01',
     },
     {
       id: 2,
-      wishlistcount: '4 items',
+      location: 'ORD002',
       name: 'Emily Johnson',
-      email: 'emily.johnson@example.com',
-      lastUpdated: '2023-05-10',
+      instagramHandle: 'emily.johnson@example.com',
+      designation: '2023-05-10',
     },
     {
       id: 3,
-      wishlistcount: '5 items',
+      location: 'ORD003',
       name: 'Michael Brown',
-      email: 'michael.brown@example.com',
-      lastUpdated: '2023-05-15',
+      instagramHandle: 'michael.brown@example.com',
+      designation: '2023-05-15',
     },
     {
       id: 4,
-      wishlistcount: '8 items',
+      location: 'ORD004',
       name: 'Sarah Davis',
-      email: 'sarah.davis@example.com',
-      lastUpdated: '2023-05-20',
+      instagramHandle: 'sarah.davis@example.com',
+      designation: '2023-05-20',
     },
     {
       id: 5,
-      wishlistcount: '9 items',
+      location: 'ORD005',
       name: 'James Wilson',
-      email: 'james.wilson@example.com',
-      lastUpdated: '2023-05-25',
+      instagramHandle: 'james.wilson@example.com',
+      designation: '2023-05-25',
     },
   ];
 
@@ -75,24 +75,24 @@ const WishList: React.FC = () => {
     },
     
     {
-      title: 'User Name',
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Email Address',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Instagram Handle',
+      dataIndex: 'instagramHandle',
+      key: 'instagramHandle',
     },
     {
-      title: 'Last Updated',
-      dataIndex: 'lastUpdated',
-      key: 'lastUpdated',
+      title: 'Designation',
+      dataIndex: 'designation',
+      key: 'designation',
     },
     {
-      title: 'Wishlist count',
-      dataIndex: 'wishlistcount',
-      key: 'wishlistcount',
+      title: 'Location',
+      dataIndex: 'location',
+      key: 'location',
     },
     {
       title: 'Action',
@@ -100,7 +100,7 @@ const WishList: React.FC = () => {
       render: (_: any, record: any) => {
         const menu = (
           <Menu>
-            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/wishlist-details')}>
+            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/edit-education')}>
               Edit
             </Menu.Item>
             <Menu.Item key="delete" icon={<Trash size={16} />} onClick={() => showDeleteConfirm(record)}>
@@ -119,16 +119,16 @@ const WishList: React.FC = () => {
 
   const filteredData = userData.filter(user =>
     user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchText.toLowerCase())
+    user.instagramHandle.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1 className="page-title">Wishlist</h1>
-        {/* <Button type="primary" icon={<Plus size={16} />}>
-          Add User
-        </Button> */}
+        <h1 className="page-title">Education</h1>
+        <Button type="primary" icon={<Plus size={16} />} onClick={() => navigate('/edit-education')}>
+        Add Educator
+        </Button>
       </div>
 
       <Card className="table-card">
@@ -172,4 +172,4 @@ const WishList: React.FC = () => {
   );
 };
 
-export default WishList;
+export default EducationList;
