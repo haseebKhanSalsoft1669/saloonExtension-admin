@@ -4,6 +4,8 @@ import { Bell, User, Menu as MenuIcon, LogOut, Settings, UserCircle, LayoutDashb
 import { useNavigate } from 'react-router-dom';
 import '../styles/TopNav.css';
 import { notifications } from '../data/mockData';
+import { useLogoutMutation } from '../redux/services/authSlice';
+import Swal from 'sweetalert2';
 
 const { Header } = Layout;
 
@@ -16,6 +18,8 @@ interface TopNavProps {
 const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  const [logout] = useLogoutMutation();
 
   const renderNotificationDropdown = () => (
     <div className="notification-dropdown">
@@ -43,7 +47,7 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
     {
       key: 'profile',
       label: (
-        <div className="dropdown-item"  onClick={() => {
+        <div className="dropdown-item" onClick={() => {
           navigate('/profile');
         }}>
           <UserCircle size={16} />
@@ -65,10 +69,7 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
       key: 'logout',
       label: (
         <div
-          onClick={() => {
-            localStorage.removeItem('userDetails');
-            navigate('/login');
-          }}
+          onClick={handleLogout}
           className="dropdown-item"
         >
           <LogOut size={16} />
@@ -77,6 +78,36 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
       ),
     },
   ];
+
+
+  async function handleLogout() {
+    try {
+      const response = await logout({}).unwrap();
+      console.log("🚀 ~ handleLogout ~ response:", response)
+      if (response?.success) {
+        Swal.fire({
+          icon: "success",
+          title: response?.message || "Operation completed successfully!",
+          text: "Thank You!",
+        })
+        localStorage.removeItem('userDetails');
+        navigate('/login');
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response?.error?.data?.message || response?.data?.message || response?.message  || "Something went wrong!",
+        })
+      }
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error?.data?.message || "Something went wrong!",
+      });
+    }
+  }
 
   return (
     <Header className="header">

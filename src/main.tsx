@@ -99,11 +99,12 @@ const App = () => (
         <Route path="/" element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users/list" element={<UserList />} />
-          <Route path="/users/userdetails" element={<UserDetails />} />
+          <Route path="/users/userdetails/:id" element={<UserDetails />} />
 
           <Route path="/categories" element={<Categories />} />
           <Route path="/edit-categories" element={<EditCategory />} />
           <Route path="/add-categories" element={<AddCategory />} />
+          <Route path="/edit-categories/:id" element={<AddCategory />} />
 
           <Route path="/product-management" element={<ProXshopProducts />} />
           <Route path="/pro-product-details" element={<ProProductDetails />} />

@@ -1,17 +1,17 @@
-import React, { useRef, useState } from "react";
-import { Input, Space, Form, Button, } from "antd";
 import type { InputRef } from "antd";
+import { Button, Form, Input, Space, } from "antd";
+import React, { useRef, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router";
-import { useVerifyCodeMutation } from "../../redux/services/verifySlice";
 import Swal from "sweetalert2";
+import { useVerifyOtpMutation } from "../../redux/services/authSlice";
 
 const VerifyCode: React.FC = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const inputRefs = useRef<(InputRef | null)[]>([]); // array of InputRefs or null
   const location = useLocation();
   const email = location.state?.email;
-  const [verifyCode] = useVerifyCodeMutation()
+  const [verifyCode , { isLoading }] = useVerifyOtpMutation()
 
   const navigate = useNavigate();
 
@@ -40,8 +40,8 @@ const VerifyCode: React.FC = () => {
     // console.log(otp.join(""), email)
     const code = otp.join("")
     try {
-      const response: any = await verifyCode({ code, email })
-      if (response?.data?.status) {
+      const response: any = await verifyCode({ otp: Number(code), email })
+      if (response?.data?.success) {
         Swal.fire({
           icon: "success",
           title: response?.data?.message || "Operation completed successfully!",
@@ -108,6 +108,8 @@ const VerifyCode: React.FC = () => {
 
           <Form.Item>
             <Button
+              loading={isLoading}
+              disabled={isLoading}
               type="primary"
               htmlType="submit"
               block

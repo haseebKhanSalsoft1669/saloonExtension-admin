@@ -1,7 +1,8 @@
-import { Button, Card, Dropdown, Input, Menu, Modal, Table, message } from 'antd';
-import { Edit, Eye, Search, Trash, X } from 'lucide-react';
+import { Button, Card, Input, Modal, Table, message } from 'antd';
+import { Eye, Search, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGetAllusersQuery } from '../../redux/services/userManagementSlice';
 import '../../styles/Common.css';
 
 const { Search: AntSearch } = Input;
@@ -12,48 +13,8 @@ const UserList: React.FC = () => {
   const [userToDelete, setUserToDelete] = useState<any>(null);
   const navigate = useNavigate();
 
-  const userData = [
-    {
-      id: 1,
-      orderId: 'ORD001',
-      name: 'John Smith',
-      email: 'john.smith@example.com',
-      registrationDate: '2023-05-01',
-    },
-    {
-      id: 2,
-      orderId: 'ORD002',
-      name: 'Emily Johnson',
-      email: 'emily.johnson@example.com',
-      registrationDate: '2023-05-10',
-    },
-    {
-      id: 3,
-      orderId: 'ORD003',
-      name: 'Michael Brown',
-      email: 'michael.brown@example.com',
-      registrationDate: '2023-05-15',
-    },
-    {
-      id: 4,
-      orderId: 'ORD004',
-      name: 'Sarah Davis',
-      email: 'sarah.davis@example.com',
-      registrationDate: '2023-05-20',
-    },
-    {
-      id: 5,
-      orderId: 'ORD005',
-      name: 'James Wilson',
-      email: 'james.wilson@example.com',
-      registrationDate: '2023-05-25',
-    },
-  ];
-
-  const showDeleteConfirm = (record: any) => {
-    setUserToDelete(record);
-    setIsModalVisible(true);
-  };
+  const [paginationConfig, setPaginationConfig] = useState({ page: 1, limit: 10 });
+  const { data, isLoading } = useGetAllusersQuery({ ...paginationConfig, keyword: searchText });
 
   const handleDelete = () => {
     message.success(`User "${userToDelete?.name}" deleted`);
@@ -73,11 +34,10 @@ const UserList: React.FC = () => {
       key: 'sno',
       render: (_: any, __: any, index: number) => index + 1,
     },
-    
     {
       title: 'User Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'fullName',
+      key: 'fullName',
     },
     {
       title: 'Email Address',
@@ -86,41 +46,27 @@ const UserList: React.FC = () => {
     },
     {
       title: 'Registration Date',
-      dataIndex: 'registrationDate',
-      key: 'registrationDate',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (date: string) => new Date(date).toLocaleDateString(), // Format date nicely
     },
     {
       title: 'Order ID',
-      dataIndex: 'orderId',
+      dataIndex: '_id', // or use orderId if exists
       key: 'orderId',
     },
     {
       title: 'Action',
       key: 'action',
-      render: (_: any, record: any) => {
-        const menu = (
-          <Menu>
-            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/users/userdetails')}>
-              Edit
-            </Menu.Item>
-            <Menu.Item key="delete" icon={<Trash size={16} />} onClick={() => showDeleteConfirm(record)}>
-              Ban
-            </Menu.Item>
-          </Menu>
-        );
-        return (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <Button icon={<Eye size={16} />} />
-          </Dropdown>
-        );
-      },
-    },
+      render: (_: any, record: any) => (
+        <Button
+          icon={<Eye size={16} />}
+          onClick={() => navigate(`/users/userdetails/${record._id}`)}
+        />
+      ),
+    }
   ];
 
-  const filteredData = userData.filter(user =>
-    user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchText.toLowerCase())
-  );
 
   return (
     <div className="page-container">
@@ -143,10 +89,20 @@ const UserList: React.FC = () => {
         </div>
 
         <Table
-          dataSource={filteredData}
+          dataSource={data?.Users || []}
           columns={columns}
+          loading={isLoading}
           rowKey="id"
-          pagination={{ pageSize: 10 }}
+          pagination={{
+            current: paginationConfig.page,
+            pageSize: paginationConfig.limit,
+            total: data?.totalCount || 0,
+            onChange: (page, pageSize) => {
+              setPaginationConfig({ page, limit: pageSize });
+            },
+            showSizeChanger: true,
+            pageSizeOptions: ['10', '20', '50'],
+          }}
           scroll={{ x: 'max-content' }}
           className="data-table"
         />

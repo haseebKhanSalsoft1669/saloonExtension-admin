@@ -32,7 +32,7 @@ const SignIn: React.FC = () => {
     setLoading(true);
     try {
       const response: any = await login(values)
-      if (response?.data?.status) {
+      if (response?.data?.success) {
         Swal.fire({
           icon: "success",
           title: response?.data?.message || "Operation completed successfully!",
@@ -134,7 +134,7 @@ const SignIn: React.FC = () => {
               SIGN IN
             </Button>
           </Form.Item>
-
+{/* 
           <div className="auth-prompt">
             <span>Don't have an account? </span>
             <Button
@@ -144,7 +144,7 @@ const SignIn: React.FC = () => {
             >
               SIGN UP
             </Button>
-          </div>
+          </div> */}
         </Form>
       </div>
     </div>

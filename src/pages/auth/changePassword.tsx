@@ -2,7 +2,7 @@
 import { Form, Input, Button, } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from "react-router";
-import { useResetPasswordMutation } from '../../redux/services/verifySlice';
+import { useResetPasswordMutation } from '../../redux/services/authSlice';
 import Swal from 'sweetalert2';
 
 
@@ -13,7 +13,7 @@ function ChangePassword() {
   const { code, email } = location.state;
 
   const navigate = useNavigate();
-  const [resetPassword] = useResetPasswordMutation()
+  const [resetPassword, { isLoading }] = useResetPasswordMutation()
 
   async function handleSubmit(values: any) {
 
@@ -27,8 +27,8 @@ function ChangePassword() {
     }
 
     try {
-      const response: any = await resetPassword({ code, email, password: values.password })
-      if (response?.data?.status) {
+      const response: any = await resetPassword({ otp: Number(code), email, password: values.password })
+      if (response?.data?.success) {
         Swal.fire({
           icon: "success",
           title: response?.data?.message || "Operation completed successfully!",
@@ -42,7 +42,7 @@ function ChangePassword() {
           text: response?.error?.data?.message || "Something went wrong!",
         });
       }
-    } catch (error : any) {
+    } catch (error: any) {
       console.error('reset password error:', error);
       Swal.fire({
         icon: "error",
@@ -106,6 +106,8 @@ function ChangePassword() {
 
           <Form.Item>
             <Button
+              loading={isLoading}
+              disabled={isLoading}
               type="primary"
               htmlType="submit"
               block
