@@ -1,21 +1,21 @@
 
-import { Form, Input, Button, } from 'antd';
+import { Button, Form, Input, } from 'antd';
 import { useNavigate } from "react-router-dom";
-import { useSendVerificationCodeMutation } from '../../redux/services/verifySlice';
 import Swal from 'sweetalert2';
+import { useForgetPasswordMutation } from '../../redux/services/authSlice';
 
 
 
 function forgetPassword() {
   const navigate = useNavigate();
-  const [sendCode] = useSendVerificationCodeMutation()
+  const [forgetPassword , { isLoading }] = useForgetPasswordMutation()
 
 
   async function handleSubmit(values: any) {
 
     try {
-      const response: any = await sendCode(values);
-      if (response?.data?.status) {
+      const response: any = await forgetPassword(values);
+      if (response?.data?.success) {
         Swal.fire({
           icon: "success",
           title: response?.data?.message || "Operation completed successfully!",
@@ -75,6 +75,8 @@ function forgetPassword() {
 
           <Form.Item>
             <Button
+              loading={isLoading}
+              disabled={isLoading}
               type="primary"
               htmlType="submit"
               block
