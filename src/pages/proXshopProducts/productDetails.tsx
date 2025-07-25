@@ -1,10 +1,8 @@
-import {  Button, Col, Input, Row, Select, Space,  Typography } from 'antd';
+import { Button, Col, Input, Row, Space, Typography } from 'antd';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-
 const { Title } = Typography;
-const { Option } = Select;
 
 
 

@@ -90,7 +90,8 @@ const App = () => (
 
           <Route path="/product-management" element={<ProXshopProducts />} />
           <Route path="/pro-product-details" element={<ProProductDetails />} />
-          <Route path="/edit-product" element={<EditProduct />} />
+          <Route path="/add-product" element={<EditProduct />} />
+          <Route path="/edit-product/:id" element={<EditProduct />} />
 
           <Route path="/order-management" element={<OrderManagement />} />
           <Route path="/order-details" element={<OrderDetails />} />
