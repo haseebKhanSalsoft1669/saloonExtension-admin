@@ -6,7 +6,7 @@ import '../../styles/Common.css';
 
 const { Search: AntSearch } = Input;
 
-const WishList: React.FC = () => {
+const Community: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userToDelete, setUserToDelete] = useState<any>(null);
@@ -15,40 +15,46 @@ const WishList: React.FC = () => {
   const userData = [
     {
       id: 1,
-      wishlistcount: '2 items',
-      name: 'John Smith',
-      email: 'john.smith@example.com',
-      lastUpdated: '2023-05-01',
+      name: 'Alice Johnson',
+      postPreview: 'Exploring the mountains this weekend...',
+      likes: '450',
+      comments: '24',
+      dateposted: "2025-07-01",
     },
     {
       id: 2,
-      wishlistcount: '4 items',
-      name: 'Emily Johnson',
-      email: 'emily.johnson@example.com',
-      lastUpdated: '2023-05-10',
+      name: 'Michael Smith',
+      postPreview: 'Just finished reading an amazing book!',
+      likes: '320',
+      comments: '18',
+      dateposted: "2025-07-02",
     },
     {
       id: 3,
-      wishlistcount: '5 items',
-      name: 'Michael Brown',
-      email: 'michael.brown@example.com',
-      lastUpdated: '2023-05-15',
+      name: 'Sophia Williams',
+      postPreview: 'New recipe alert: Homemade pasta 🍝',
+      likes: '1,200',
+      comments: '34',
+      dateposted: "2025-07-03",
     },
     {
       id: 4,
-      wishlistcount: '8 items',
-      name: 'Sarah Davis',
-      email: 'sarah.davis@example.com',
-      lastUpdated: '2023-05-20',
+      name: 'David Brown',
+      postPreview: 'Caught this sunset while jogging...',
+      likes: '890',
+      comments: '27',
+      dateposted: "2025-07-04",
     },
     {
       id: 5,
-      wishlistcount: '9 items',
-      name: 'James Wilson',
-      email: 'james.wilson@example.com',
-      lastUpdated: '2023-05-25',
+      name: 'Emma Davis',
+      postPreview: 'Weekend vibes 🌴',
+      likes: '2,100',
+      comments: '45',
+      dateposted: "2025-07-05",
     },
   ];
+  
 
   const showDeleteConfirm = (record: any) => {
     setUserToDelete(record);
@@ -75,32 +81,37 @@ const WishList: React.FC = () => {
     },
     
     {
-      title: 'User Name',
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Email Address',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Post Preview',
+      dataIndex: 'postPreview',
+      key: 'postPreview',
     },
     {
-      title: 'Last Updated',
-      dataIndex: 'lastUpdated',
-      key: 'lastUpdated',
+      title: 'Likes',
+      dataIndex: 'likes',
+      key: 'likes',
     },
     {
-      title: 'Wishlist count',
-      dataIndex: 'wishlistcount',
-      key: 'wishlistcount',
+      title: 'Comments',
+      dataIndex: 'comments',
+      key: 'comments',
     },
+    {
+        title: 'Date posted',
+        dataIndex: 'dateposted',
+        key: 'dateposted',
+      },
     {
       title: 'Action',
       key: 'action',
       render: (_: any, record: any) => {
         const menu = (
           <Menu>
-            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/wishlist-details')}>
+            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/community-details')}>
               Edit
             </Menu.Item>
             <Menu.Item key="delete" icon={<Trash size={16} />} onClick={() => showDeleteConfirm(record)}>
@@ -119,13 +130,13 @@ const WishList: React.FC = () => {
 
   const filteredData = userData.filter(user =>
     user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchText.toLowerCase())
+    user.postPreview.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1 className="page-title">Wishlist</h1>
+        <h1 className="page-title">Community</h1>
         {/* <Button type="primary" icon={<Plus size={16} />}>
           Add User
         </Button> */}
@@ -172,4 +183,4 @@ const WishList: React.FC = () => {
   );
 };
 
-export default WishList;
+export default Community;
