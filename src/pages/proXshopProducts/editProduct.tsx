@@ -66,7 +66,6 @@ const EditProduct: React.FC = () => {
 
     try {
       const response: any = await addProduct(formData)
-      console.log("🚀 ~ onFinish ~ response:", response)
       if (response?.data?.success) {
         Swal.fire({
           icon: "success",
@@ -91,8 +90,6 @@ const EditProduct: React.FC = () => {
     }
 
   };
-
-
 
 
   return (
@@ -127,7 +124,7 @@ const EditProduct: React.FC = () => {
                   </Col>
                   <Col span={12}>
                     <Form.Item name="length" label="Length">
-                      <Select defaultValue="20" className="custom-input" />
+                      <Input type='number' defaultValue="0" className="custom-input" />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -140,13 +137,7 @@ const EditProduct: React.FC = () => {
                     <Row gutter={16}>
                       <Col span={24}>
                         <Form.Item name="color" label="Color">
-                          <Select placeholder="Select Color" className="custom-input">
-                            <Select.Option value="black">Black</Select.Option>
-                            <Select.Option value="brown">Brown</Select.Option>
-                            <Select.Option value="blonde">Blonde</Select.Option>
-                            <Select.Option value="ombre">Ombre</Select.Option>
-                            <Select.Option value="red">Red</Select.Option>
-                          </Select>
+                          <Input placeholder="Enter color" className="custom-input" />
                         </Form.Item>
                       </Col>
                       <Col span={24}>
@@ -187,11 +178,11 @@ const EditProduct: React.FC = () => {
                       </Col>
                     </Row>
                   </Col>
-                  <Col span={12}>
+                  {/* <Col span={12}>
                     <Form.Item name="sku" label="SKU">
                       <Input placeholder="Enter SKU" className="custom-input" />
                     </Form.Item>
-                  </Col>
+                  </Col> */}
                   <Col span={12}>
                     <Form.Item name="stock" label="Product stock">
                       <Input type='number' placeholder="Enter Stock" className="custom-input" />
@@ -199,7 +190,7 @@ const EditProduct: React.FC = () => {
                   </Col>
                   <Col span={12}>
                     <Form.Item name="weight" label="Weight">
-                      <Input placeholder="Enter Weight" className="custom-input" />
+                      <Input type='number' placeholder="Enter Weight" className="custom-input" />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
