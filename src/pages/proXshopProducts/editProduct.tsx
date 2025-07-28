@@ -57,7 +57,7 @@ const EditProduct: React.FC = () => {
     // Append form fields
     Object.entries(values).forEach(([key, value]: any) => {
       if (Array.isArray(value)) {
-        value.forEach((item) => formData.append(`${key}[]`, item));
+        formData.append(`${key}`, JSON.stringify(value));
       } else {
         formData.append(key, value);
       }
@@ -73,6 +73,13 @@ const EditProduct: React.FC = () => {
         formData.append('removedImages', image);
       });
     }
+
+    // // show form data map on it
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
+
+
 
     try {
       const response: any = id ? await updateProduct({ id, body: formData }) : await addProduct(formData)

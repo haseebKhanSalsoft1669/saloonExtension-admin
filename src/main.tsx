@@ -93,7 +93,7 @@ const App = () => (
      <Provider store={store}>
       
      
-    <BrowserRouter>
+    <BrowserRouter basename={"/saloon-xtension/admin/"}>
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/" element={<AppLayout />}>
