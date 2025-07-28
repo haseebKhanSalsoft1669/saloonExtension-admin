@@ -33,16 +33,16 @@ export const menuItems = [
   },
   {
     key: '/product-management',
-    label: 'ProXshop Products',
+    label: 'Product Management',
     icon: <Boxes size={18} />,
    
   },
-  {
-    key: '/product-management',
-    label: 'Retail Products',
-    icon: <Box size={18} />,
+  // {
+  //   key: '/product-management',
+  //   label: 'Retail Products',
+  //   icon: <Box size={18} />,
    
-  },
+  // },
   {
     key: '/order-management',
     label: 'Orders Management',
