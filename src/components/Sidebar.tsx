@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, visible, onClose }) => {
         isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />
       }
     >
-      {menuItems.map(item => {
+      {menuItems.map((item:any) => {
         if (item.children) {
           return (
             <SubMenu
@@ -66,9 +66,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, visible, onClose }) => {
                 </span>
               }
             >
-              {item.children.map(child => (
+              {item.children.map((child:any) => (
                 <Menu.Item key={child.key}>
-                  <span className="menu-item-content">
+                  <span className="menu-item-c)ontent">
                     {child.icon}
                     <span className="menu-item-title">{child.label}</span>
                   </span>
@@ -101,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, visible, onClose }) => {
     >
       <div className="drawer-header">
         <div className="logo-container">
-        <Image preview={false} src="../images/modal-logo.png"  />
+        <Image preview={false} src="./images/modal-logo.png"  />
 
         </div>
         <button className="drawer-close-btn" onClick={onClose}>
@@ -120,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, visible, onClose }) => {
       style={{ display: visible ? 'block' : 'none' }}
     >
       <div className="logo-container">
-      <Image preview={false} src="../images/modal-logo.png"  />
+      <Image preview={false} src="./images/logo.png"  />
       </div>
       {renderSidebarContent()}
     </Sider>
