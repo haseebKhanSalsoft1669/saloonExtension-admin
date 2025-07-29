@@ -1,4 +1,4 @@
-const { VITE_NODE_ENV } = import.meta.env; // Use import.meta.env instead of process.env
+// const { VITE_NODE_ENV } = import.meta.env; // Use import.meta.env instead of process.env
 const { hostname } = window.location;
 
 const servers = {
@@ -10,9 +10,9 @@ const servers = {
 
 var URL;
 
-if (VITE_NODE_ENV === "production" && hostname.includes("react.customdev.solutions")) {
+if (hostname.includes("react.customdev.solutions")) {
   URL = servers.customDev;
-} else if (VITE_NODE_ENV === "production" && hostname.includes("buffaloaudiovisual.com")) {
+} else if (hostname.includes("buffaloaudiovisual.com")) {
   URL = servers.live;
 } else {
   URL = servers.local;
