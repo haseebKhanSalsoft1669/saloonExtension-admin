@@ -163,7 +163,7 @@ span.svgbg {
 
 .ant-menu-item:hover,
 .ant-menu-submenu-title:hover {
-  background-color: transparent !important;
+  background-color: var(--secondary-color) !important;
   color: var(--primary-blue) !important;
 }
 
@@ -174,8 +174,8 @@ span.svgbg {
 }
 
 .ant-dropdown-menu-item:hover {
-  background-color: transparent !important;
-  color: var(--primary-blue) !important;
+  background-color: var(--secondary-color) !important;
+  color: var( --primary-color) !important;
 }
 
 .ant-card {

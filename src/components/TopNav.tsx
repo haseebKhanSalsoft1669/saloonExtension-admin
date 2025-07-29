@@ -126,7 +126,7 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
       </div>
 
       <div className="header-right">
-        <Dropdown
+        {/* <Dropdown
           placement="bottomRight"
           trigger={['click']}
           dropdownRender={renderNotificationDropdown}
@@ -138,7 +138,7 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
               className="icon-button"
             />
           </Badge>
-        </Dropdown>
+        </Dropdown> */}
 
         <Dropdown
           menu={{ items: profileItems }}
