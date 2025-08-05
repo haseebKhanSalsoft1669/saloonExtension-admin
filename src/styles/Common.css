@@ -386,7 +386,13 @@ label {
 .custom-checkbox-group .ant-checkbox .ant-checkbox-inner {
   display: inline-block;
 }
-
+.big-checkbox .ant-checkbox-inner{
+  width: 24px;
+  height: 24px;
+}
+.big-checkbox .ant-checkbox-label{
+  font-size: 18px;
+}
 .tag-section {
   margin-top: 24px;
   background: #fff;

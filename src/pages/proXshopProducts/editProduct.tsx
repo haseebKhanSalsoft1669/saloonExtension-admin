@@ -29,12 +29,13 @@ const EditProduct: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [fileList, setFileList] = useState<any[]>([]);
   const [form] = Form.useForm();
+  const xproValue = Form.useWatch("xpro", form);
   const id = useParams().id
 
   const { data: productData, isLoading: isProductLoading } = useGetProductByIdQuery({ id }, { skip: !id })
   const [updateProduct, { isLoading: isUpdateLoading }] = useUpdateProductMutation()
   const [addProduct, { isLoading }] = useAddProductMutation()
-  const { data: categoryData } = useGetAllCategoriesQuery({})
+  const { data: categoryData } = useGetAllCategoriesQuery({ xpro: xproValue || false })
 
 
   const [removedImages, setRemovedImages] = useState<string[]>([]);
@@ -128,10 +129,17 @@ const EditProduct: React.FC = () => {
         <div style={{ backgroundColor: "rgba(128, 128, 128, 0.20)", padding: "10px", borderRadius: "8px" }}>
           <Form form={form} initialValues={productData} layout="vertical" onFinish={onFinish}>
 
+
             {/* Form Section */}
             <Row gutter={24}>
+
               <Col xs={24} lg={16}>
                 <div className="form-section">
+
+                  <Form.Item name="xpro" valuePropName="checked">
+                    <Checkbox className="custom-checkbox big-checkbox">Add this product in ProXshop</Checkbox>
+                  </Form.Item>
+
                   <Row gutter={16}>
                     <Col span={12}>
                       <Form.Item name="name" label="Product Name">
@@ -238,9 +246,7 @@ const EditProduct: React.FC = () => {
                       </Form.Item>
                     </Col>
                     <Col span={24}>
-                      <Form.Item name="xpro" valuePropName="checked">
-                        <Checkbox className="custom-checkbox">Add this product in ProXshop</Checkbox>
-                      </Form.Item>
+
                     </Col>
                   </Row>
                 </div>
@@ -293,14 +299,14 @@ const EditProduct: React.FC = () => {
         okText="Yes"
         cancelText="No"
       >
-        
+
         <p></p>
       </Modal>
 
 
       <Modal
-         open={isModalVisible}
-         onCancel={handleCancel}
+        open={isModalVisible}
+        onCancel={handleCancel}
         footer={null}
         centered
         closeIcon={<X />}

@@ -18,13 +18,14 @@ export const categorySlice = createApi({
             }),
         }),
         getAllCategories: builder.query({
-            query: ({ page, limit, keyword }) => ({
+            query: ({ page, limit, keyword ,xpro}) => ({
                 url: "/get-all-categories",
                 method: "GET",
                 params: {
                     page,
                     limit,
-                    keyword
+                    keyword,
+                    xpro
                 }
             }),
             providesTags: ['category'],
