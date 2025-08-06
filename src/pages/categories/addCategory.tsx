@@ -6,7 +6,8 @@ import {
   Row,
   Space,
   Typography,
-  Spin
+  Spin,
+  Checkbox
 } from 'antd';
 import { ArrowLeft } from 'lucide-react';
 import React, { useEffect } from 'react';
@@ -94,9 +95,12 @@ const AddCategory: React.FC = () => {
       {categoryLoading && isEditMode ? (
         <Spin />
       ) : (
-        <Form form={form} layout="vertical" onFinish={onFinish}>
+        <Form form={form} initialValues={categoryData} layout="vertical" onFinish={onFinish}>
           <Row gutter={24}>
             <Col xs={24} md={16} lg={12}>
+              <Form.Item name="xpro" valuePropName="checked">
+                <Checkbox className="custom-checkbox big-checkbox">Add this product in ProXshop</Checkbox>
+              </Form.Item>
               <Form.Item
                 name="name"
                 label="Category Name"

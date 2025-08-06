@@ -333,7 +333,7 @@ label {
 .ant-select {
   width: 100%;
   margin-bottom: 16px;
-
+  
 }
 .ant-select-selector{ 
   border: 0 !important;
@@ -344,8 +344,14 @@ label {
 }
 .custom-textarea {
   resize: none;
+  border-color: var(--border-color) !important;
 }
-
+.custom-textarea .ql-container{
+  height: 164px;
+}
+.ql-toolbar.ql-snow{
+  border: 0;
+}
 .custom-switch, .ant-switch.ant-switch-checked:hover {
   margin-right: 8px;
   background-color: #D9E4FF !important;
@@ -362,7 +368,9 @@ label {
   margin-bottom: 16px;
   display: block;
 }
-
+.custom-uploader .ant-upload-list-item-name{
+  color: var(--text-primary);
+}
 .sidebar-section, .form-section {
   background-color: #fff;
   padding: 16px;
@@ -386,7 +394,13 @@ label {
 .custom-checkbox-group .ant-checkbox .ant-checkbox-inner {
   display: inline-block;
 }
-
+.big-checkbox .ant-checkbox-inner{
+  width: 24px;
+  height: 24px;
+}
+.big-checkbox .ant-checkbox-label{
+  font-size: 18px;
+}
 .tag-section {
   margin-top: 24px;
   background: #fff;
