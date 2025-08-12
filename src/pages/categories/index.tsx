@@ -66,6 +66,12 @@ const Categories: React.FC = () => {
       render: (text: string) => text?.trim() ? text : 'N/A',
     },
     {
+      title: 'Xpro',
+      dataIndex: 'xpro',
+      key: 'xpro',
+      render: (value: boolean) => (value ? 'Xpro Category' : 'Non-Xpro Category'),
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (_: any, record: any) => {

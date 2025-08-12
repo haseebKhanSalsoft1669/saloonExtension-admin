@@ -6,8 +6,7 @@ import {
   Menu,
   Modal,
   Table,
-  Tag,
- Typography 
+  Typography
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
@@ -121,10 +120,13 @@ const ProXshopProducts: React.FC = () => {
     },
 
     {
-      title: 'Category',
+      title: 'Categories',
       dataIndex: 'category',
       key: 'category',
-      render: (category: any) => category?.name || '—',
+      render: (categories: any[]) =>
+        categories?.length
+          ? categories.map(cat => cat.name).join(', ')
+          : 'N/A',
     },
     {
       title: 'Price',
@@ -133,22 +135,22 @@ const ProXshopProducts: React.FC = () => {
       render: (price: number) => `$ ${price ?? 0}`,
     },
     {
-      title: 'Stock',
-      dataIndex: 'stock',
-      key: 'stock',
-      render: (stock: number) => stock ?? '—',
+      title: 'Xpro',
+      dataIndex: 'xpro',
+      key: 'xpro',
+      render: (value: boolean) => (value ? 'Xpro Product' : 'Non-Xpro Product'),
     },
-    {
-      title: 'Status',
-      dataIndex: 'stock',
-      key: 'status',
-      render: (stock: number) =>
-        stock && stock > 0 ? (
-          <Tag color="green">In Stock</Tag>
-        ) : (
-          <Tag color="red">Out of Stock</Tag>
-        ),
-    },
+    // {
+    //   title: 'Status',
+    //   dataIndex: 'stock',
+    //   key: 'status',
+    //   render: (stock: number) =>
+    //     stock && stock > 0 ? (
+    //       <Tag color="green">In Stock</Tag>
+    //     ) : (
+    //       <Tag color="red">Out of Stock</Tag>
+    //     ),
+    // },
     {
       title: 'Action',
       key: 'action',
