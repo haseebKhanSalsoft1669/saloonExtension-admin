@@ -39,6 +39,7 @@ const EditProduct: React.FC = () => {
   const id = useParams().id;
 
   const { data: productData, isLoading: isProductLoading } = useGetProductByIdQuery({ id }, { skip: !id });
+  console.log("🚀 ~ EditProduct ~ productData:", productData)
   const [updateProduct, { isLoading: isUpdateLoading }] = useUpdateProductMutation();
   const [addProduct, { isLoading }] = useAddProductMutation();
   const { data: categoryData } = useGetAllCategoriesQuery({ xpro: xproValue || false });
@@ -159,7 +160,7 @@ const EditProduct: React.FC = () => {
       formData.append(`variants[${variantIndex}][weight]`, variant.weight);
       formData.append(`variants[${variantIndex}][stock]`, variant.stock);
       formData.append(`variants[${variantIndex}][colors]`, JSON.stringify(variant.colors));
-      formData.append(`variants[${variantIndex}][sizes]`, variant.sizes);
+      formData.append(`variants[${variantIndex}][size]`, variant.size);
 
       // Append images
       variant.images?.forEach((file: any, fileIndex: any) => {
@@ -173,9 +174,9 @@ const EditProduct: React.FC = () => {
     });
 
     // Debug
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
+    // for (const pair of formData.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
 
     try {
       const response: any = id
@@ -305,7 +306,7 @@ const EditProduct: React.FC = () => {
                                     </Upload.Dragger>
                                   </Form.Item>
 
-                                  {productData?.images?.map((imgPath: string, index: number) =>
+                                  {productData?.variants[key].varationImage?.map((imgPath: string, index: number) =>
                                     removedImages.includes(imgPath) ? null : (
                                       <div
                                         key={index}
@@ -358,8 +359,8 @@ const EditProduct: React.FC = () => {
                                 <Col span={12}>
                                   <Form.Item
                                     {...restField}
-                                    name={[name, "sizes"]}
-                                    label="Sizes"
+                                    name={[name, "size"]}
+                                    label="Size"
                                     rules={[{ required: true, message: "Please select notification type" }]}
                                   >
                                     <Select placeholder="Select type" className="custom-input">

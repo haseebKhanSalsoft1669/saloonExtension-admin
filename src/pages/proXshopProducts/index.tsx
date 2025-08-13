@@ -106,14 +106,19 @@ const ProXshopProducts: React.FC = () => {
       key: 'name',
       render: (_: any, record: any) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <img
-            crossOrigin='anonymous'
-            src={UPLOADS_URL + record.images?.[0] || '/placeholder.png'}
-            alt="product"
-            width={40}
-            height={40}
-            style={{ borderRadius: 4, objectFit: 'cover' }}
-          />
+          {record.variants?.[0].varationImage.length > 0 && record.variants?.[0].varationImage.map((img: any) => {
+            return (
+              <img
+                crossOrigin='anonymous'
+                src={UPLOADS_URL + img || '/placeholder.png'}
+                alt="product"
+                width={40}
+                height={40}
+                style={{ borderRadius: 4, objectFit: 'cover' }}
+              />
+            )
+          })}
+         
           <span>{record.name || 'N/A'}</span>
         </div>
       ),
@@ -128,12 +133,12 @@ const ProXshopProducts: React.FC = () => {
           ? categories.map(cat => cat.name).join(', ')
           : 'N/A',
     },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price: number) => `$ ${price ?? 0}`,
-    },
+    // {
+    //   title: 'Price',
+    //   dataIndex: 'price',
+    //   key: 'price',
+    //   render: (price: number) => `$ ${price ?? 0}`,
+    // },
     {
       title: 'Xpro',
       dataIndex: 'xpro',
