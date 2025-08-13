@@ -39,7 +39,6 @@ const EditProduct: React.FC = () => {
   const id = useParams().id;
 
   const { data: productData, isLoading: isProductLoading } = useGetProductByIdQuery({ id }, { skip: !id });
-  console.log("🚀 ~ EditProduct ~ productData:", productData)
   const [updateProduct, { isLoading: isUpdateLoading }] = useUpdateProductMutation();
   const [addProduct, { isLoading }] = useAddProductMutation();
   const { data: categoryData } = useGetAllCategoriesQuery({ xpro: xproValue || false });
@@ -169,14 +168,14 @@ const EditProduct: React.FC = () => {
     });
 
     // Append removed images
-    removedImages.forEach((img) => {
-      formData.append("removedImages[]", img);
-    });
+    // removedImages.forEach((item: any) => {
+    //   formData.append(`removedImages[${item.variantIndex}][${item.imageIndex}]`, item.path);
+    // });
 
-    // Debug
-    // for (const pair of formData.entries()) {
-    //   console.log(pair[0], pair[1]);
-    // }
+    if (removedImages.length > 0) {
+        formData.append('removedImages', JSON.stringify(removedImages));
+    }
+
 
     try {
       const response: any = id
@@ -211,8 +210,8 @@ const EditProduct: React.FC = () => {
 
   };
 
-  const handleRemoveImage = (path: string) => {
-    setRemovedImages((prev) => [...prev, path]);
+  const handleRemoveImage = (variantIndex: number, imageIndex: number, path: string) => {
+    setRemovedImages((prev: any) => [...prev, { variantIndex, imageIndex, path }]);
   };
 
   return (
@@ -307,7 +306,7 @@ const EditProduct: React.FC = () => {
                                   </Form.Item>
 
                                   {productData?.variants[key].varationImage?.map((imgPath: string, index: number) =>
-                                    removedImages.includes(imgPath) ? null : (
+                                    removedImages.some((r: any) => r.variantIndex === key && r.path === imgPath) ? null : (
                                       <div
                                         key={index}
                                         style={{
@@ -329,7 +328,8 @@ const EditProduct: React.FC = () => {
                                           }}
                                         />
                                         <DeleteOutlined
-                                          onClick={() => handleRemoveImage(imgPath)}
+                                          // onClick={() => handleRemoveImage(imgPath)}
+                                          onClick={() => handleRemoveImage(key, index, imgPath)}
                                           style={{
                                             position: "absolute",
                                             top: -5,
