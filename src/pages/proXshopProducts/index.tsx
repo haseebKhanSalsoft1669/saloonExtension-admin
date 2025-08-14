@@ -6,8 +6,7 @@ import {
   Menu,
   Modal,
   Table,
-  Tag,
- Typography 
+  Typography
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
@@ -107,48 +106,56 @@ const ProXshopProducts: React.FC = () => {
       key: 'name',
       render: (_: any, record: any) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <img
-            crossOrigin='anonymous'
-            src={UPLOADS_URL + record.images?.[0] || '/placeholder.png'}
-            alt="product"
-            width={40}
-            height={40}
-            style={{ borderRadius: 4, objectFit: 'cover' }}
-          />
+          {record.variants?.[0].varationImage.length > 0 && record.variants?.[0].varationImage.map((img: any) => {
+            return (
+              <img
+                crossOrigin='anonymous'
+                src={UPLOADS_URL + img || '/placeholder.png'}
+                alt="product"
+                width={40}
+                height={40}
+                style={{ borderRadius: 4, objectFit: 'cover' }}
+              />
+            )
+          })}
+         
           <span>{record.name || 'N/A'}</span>
         </div>
       ),
     },
 
     {
-      title: 'Category',
+      title: 'Categories',
       dataIndex: 'category',
       key: 'category',
-      render: (category: any) => category?.name || '—',
+      render: (categories: any[]) =>
+        categories?.length
+          ? categories.map(cat => cat.name).join(', ')
+          : 'N/A',
     },
+    // {
+    //   title: 'Price',
+    //   dataIndex: 'price',
+    //   key: 'price',
+    //   render: (price: number) => `$ ${price ?? 0}`,
+    // },
     {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price: number) => `$ ${price ?? 0}`,
+      title: 'Xpro',
+      dataIndex: 'xpro',
+      key: 'xpro',
+      render: (value: boolean) => (value ? 'Xpro Product' : 'Non-Xpro Product'),
     },
-    {
-      title: 'Stock',
-      dataIndex: 'stock',
-      key: 'stock',
-      render: (stock: number) => stock ?? '—',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'stock',
-      key: 'status',
-      render: (stock: number) =>
-        stock && stock > 0 ? (
-          <Tag color="green">In Stock</Tag>
-        ) : (
-          <Tag color="red">Out of Stock</Tag>
-        ),
-    },
+    // {
+    //   title: 'Status',
+    //   dataIndex: 'stock',
+    //   key: 'status',
+    //   render: (stock: number) =>
+    //     stock && stock > 0 ? (
+    //       <Tag color="green">In Stock</Tag>
+    //     ) : (
+    //       <Tag color="red">Out of Stock</Tag>
+    //     ),
+    // },
     {
       title: 'Action',
       key: 'action',

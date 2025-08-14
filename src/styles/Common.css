@@ -401,12 +401,12 @@ label {
 .big-checkbox .ant-checkbox-label{
   font-size: 18px;
 }
-.tag-section {
+/* .tag-section {
   margin-top: 24px;
   background: #fff;
   padding: 16px;
   border-radius: 8px;
-}
+} */
 
 .custom-checkbox {
   margin-top: 12px;
