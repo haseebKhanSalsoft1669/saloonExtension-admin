@@ -172,7 +172,7 @@ const EditProduct: React.FC = () => {
     //   formData.append(`removedImages[${item.variantIndex}][${item.imageIndex}]`, item.path);
     // });
 
-    if (removedImages.length > 0) {
+    if (removedImages?.length > 0) {
         formData.append('removedImages', JSON.stringify(removedImages));
     }
 
