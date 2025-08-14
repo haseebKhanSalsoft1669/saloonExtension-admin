@@ -106,7 +106,7 @@ const ProXshopProducts: React.FC = () => {
       key: 'name',
       render: (_: any, record: any) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {record.variants?.[0].varationImage.length > 0 && record.variants?.[0].varationImage.map((img: any) => {
+          {record?.variants?.[0].varationImage?.length > 0 && record?.variants?.[0]?.varationImage?.map((img: any) => {
             return (
               <img
                 crossOrigin='anonymous'
@@ -129,7 +129,7 @@ const ProXshopProducts: React.FC = () => {
       dataIndex: 'category',
       key: 'category',
       render: (categories: any[]) =>
-        categories?.length
+        categories?.length > 0
           ? categories.map(cat => cat.name).join(', ')
           : 'N/A',
     },
