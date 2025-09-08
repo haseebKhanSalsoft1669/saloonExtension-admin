@@ -158,7 +158,8 @@ const EditProduct: React.FC = () => {
       formData.append(`variants[${variantIndex}][length]`, variant.length);
       formData.append(`variants[${variantIndex}][weight]`, variant.weight);
       formData.append(`variants[${variantIndex}][stock]`, variant.stock);
-      formData.append(`variants[${variantIndex}][colors]`, JSON.stringify(variant.colors));
+       formData.append(`variants[${variantIndex}][colors]`, variant.colors ? JSON.stringify(variant.colors) : []);
+      //formData.append(`variants[${variantIndex}][colors]`, variant.colors);
       formData.append(`variants[${variantIndex}][size]`, variant.size);
 
       // Append images
@@ -349,12 +350,18 @@ const EditProduct: React.FC = () => {
                                 </Col>
 
                                 <Col span={12}>
-                                  <div className="tag-section">
-                                    <Form.Item {...restField} name={[name, "colors"]} label="Colors">
-                                      <Select mode="tags" style={{ width: "100%", height: "auto" }} placeholder="Enter tag name" />
-                                    </Form.Item>
-                                  </div>
-                                </Col>
+                                        <div className="tag-section">
+                                          <Form.Item {...restField} name={[name, "colors"]} label="Colors">
+                                            <Select style={{ width: "100%" }} placeholder="Select a color">
+                                              <Select.Option value="yellow">Yellow</Select.Option>
+                                              <Select.Option value="red">Red</Select.Option>
+                                              <Select.Option value="green">Green</Select.Option>
+                                              <Select.Option value="blue">Blue</Select.Option>
+                                              <Select.Option value="black">Black</Select.Option>
+                                            </Select>
+                                          </Form.Item>
+                                        </div>
+                                      </Col>
 
                                 <Col span={12}>
                                   <Form.Item
