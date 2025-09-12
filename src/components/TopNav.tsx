@@ -2,9 +2,11 @@ import React from 'react';
 import { Layout, Dropdown, Badge, Avatar, Button } from 'antd';
 import { Bell, User, Menu as MenuIcon, LogOut, Settings, UserCircle, LayoutDashboard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import '../styles/TopNav.css';
 import { notifications } from '../data/mockData';
 import { useLogoutMutation } from '../redux/services/authSlice';
+import { selectUser } from '../redux/slices/authSlice';
 import Swal from 'sweetalert2';
 
 const { Header } = Layout;
@@ -18,6 +20,7 @@ interface TopNavProps {
 const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const unreadCount = notifications.filter(n => !n.read).length;
+  const user = useSelector(selectUser);
 
   const [logout] = useLogoutMutation();
 
@@ -82,29 +85,22 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
 
   async function handleLogout() {
     try {
-      const response = await logout({}).unwrap();
-      console.log("🚀 ~ handleLogout ~ response:", response)
-      if (response?.success) {
-        Swal.fire({
-          icon: "success",
-          title: response?.message || "Operation completed successfully!",
-          text: "Thank You!",
-        })
-        localStorage.removeItem('userDetails');
-        navigate('/login');
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: response?.error?.data?.message || response?.data?.message || response?.message  || "Something went wrong!",
-        })
-      }
+      await logout({}).unwrap();
+      Swal.fire({
+        icon: "success",
+        title: "Logged out successfully!",
+        text: "Thank you for using our platform!",
+      });
+      // The logout action is automatically dispatched by the authApi
+      // No need to manually clear localStorage or navigate
+      // The PublicRoute will handle the navigation to login
     } catch (error: any) {
       console.error('Logout error:', error);
+      // Even if logout API fails, the local state will be cleared
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: error?.data?.message || "Something went wrong!",
+        icon: "success",
+        title: "Logged out successfully!",
+        text: "Thank you for using our platform!",
       });
     }
   }
@@ -147,7 +143,7 @@ const TopNav: React.FC<TopNavProps> = ({ toggleSidebar }) => {
         >
           <div className="profile-container">
             <Avatar icon={<User />} className="profile-avatar" />
-            <span className="profile-name">John Doe</span>
+            <span className="profile-name">{user?.fullName || 'Admin'}</span>
           </div>
         </Dropdown>
       </div>
