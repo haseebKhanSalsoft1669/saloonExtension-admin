@@ -14,7 +14,7 @@ export const categorySlice = createApi({
             query: (body) => ({
                 url: "/add-category",
                 method: "POST",
-                body,
+                body, // can be JSON or FormData
             }),
         }),
         getAllCategories: builder.query({
@@ -41,10 +41,10 @@ export const categorySlice = createApi({
         }),
 
         updateCategory: builder.mutation({
-            query: ({ id, values }) => ({
+            query: ({ id, body }) => ({
                 url: `/update-category/${id}`,
                 method: "PUT",
-                body: { ...values },
+                body, // can be JSON or FormData
             }),
         }),
 

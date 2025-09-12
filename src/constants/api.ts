@@ -8,7 +8,7 @@ const servers = {
   dummy: "https://9d2f-204-157-158-10.ngrok-free.app",
 };
 
-var URL;
+let URL;
 
 if (hostname.includes("react.customdev.solutions")) {
   URL = servers.customDev;

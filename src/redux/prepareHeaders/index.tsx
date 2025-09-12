@@ -1,14 +1,16 @@
-export const prepareHeaders = (headers: any) => {
+export const prepareHeaders = (headers: any, { getState }: any) => {
     try {
-        // const token = getState()?.user?.userToken;
-        const { token } = JSON.parse(localStorage.getItem("userDetails") || "{}");
+        // Get token from Redux state
+        const state = getState() as any;
+        const accessToken = state.auth?.accessToken;
 
-        if (token) {
-            headers.set("Authorization", `Bearer ${token}`);
+        if (accessToken) {
+            headers.set("Authorization", `Bearer ${accessToken}`);
         }
 
         return headers;
     } catch (error) {
-        console.log(error)
+        console.log('Error preparing headers:', error);
+        return headers;
     }
 };

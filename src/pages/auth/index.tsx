@@ -3,6 +3,8 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from '../../redux/services/authSlice';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated, selectAccessToken } from '../../redux/slices/authSlice';
 import Swal from 'sweetalert2';
 
 interface SignInFormValues {
@@ -14,47 +16,45 @@ interface SignInFormValues {
 const SignIn: React.FC = () => {
   const [form] = Form.useForm<SignInFormValues>();
   const [loading, setLoading] = useState(false);
-  const [login] = useLoginMutation()
+  const [login] = useLoginMutation();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const accessToken = useSelector(selectAccessToken);
 
   const navigate = useNavigate();
 
-
-
+  // Redirect if already authenticated
   useEffect(() => {
-    const userDetails = localStorage.getItem("userDetails");
-    if (userDetails) {
+    if (isAuthenticated && accessToken) {
       navigate("/dashboard");
     }
-  }, [])
+  }, [isAuthenticated, accessToken, navigate]);
 
   const handleSignIn = async (values: SignInFormValues) => {
-
     setLoading(true);
     try {
-      const response: any = await login(values)
+      const response: any = await login(values);
       if (response?.data?.success) {
         Swal.fire({
           icon: "success",
-          title: response?.data?.message || "Operation completed successfully!",
-          text: "Thank You!",
+          title: response?.data?.message || "Login successful!",
+          text: "Welcome back!",
         });
-        localStorage.setItem("userDetails", JSON.stringify(response?.data?.data));
-        navigate("/")
-
+        // The loginSuccess action is automatically dispatched by the authApi
+        // No need to manually save to localStorage or navigate
+        // The ProtectedRoute will handle the navigation
       } else {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: response?.error?.data?.message || "Something went wrong!",
+          title: "Login Failed",
+          text: response?.error?.data?.message || "Invalid credentials. Please try again.",
         });
       }
-
     } catch (error: any) {
       console.error('Sign in error:', error);
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: error?.data?.message || "Something went wrong!",
+        title: "Login Failed",
+        text: error?.data?.message || "Something went wrong. Please try again.",
       });
     } finally {
       setLoading(false);

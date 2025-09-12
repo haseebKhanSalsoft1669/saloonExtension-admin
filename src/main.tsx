@@ -6,6 +6,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 
 import AppLayout from './components/AppLayout';
+import ProtectedRoute from './components/ProtectedRoute';
+import PublicRoute from './components/PublicRoute';
 import Dashboard from './pages/dashboard/Dashboard';
 
 import UserList from './pages/userManagement/UserList';
@@ -74,55 +76,80 @@ const App = () => (
      
     <BrowserRouter basename={"/saloon-xtension/admin/"}>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/" element={<AppLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users/list" element={<UserList />} />
-          <Route path="/users/userdetails/:id" element={<UserDetails />} />
+        {/* Public Routes - Only accessible when not authenticated */}
+        <Route path="/login" element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        } />
+        <Route path="/signup" element={
+          <PublicRoute>
+            <SignUp />
+          </PublicRoute>
+        } />
+        <Route path="/forgetpassword" element={
+          <PublicRoute>
+            <ForgetPassword />
+          </PublicRoute>
+        } />
+        <Route path="/verifycode" element={
+          <PublicRoute>
+            <VerifyCode />
+          </PublicRoute>
+        } />
+        <Route path="/changepassword" element={
+          <PublicRoute>
+            <ChangePassword />
+          </PublicRoute>
+        } />
 
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/edit-categories" element={<EditCategory />} />
-          <Route path="/add-categories" element={<AddCategory />} />
-          <Route path="/edit-categories/:id" element={<AddCategory />} />
+        {/* Protected Routes - Only accessible when authenticated */}
+        <Route path="/" element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }>
+          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="users/list" element={<UserList />} />
+          <Route path="users/userdetails/:id" element={<UserDetails />} />
 
-          <Route path="/product-management" element={<ProXshopProducts />} />
-          <Route path="/pro-product-details" element={<ProProductDetails />} />
-          <Route path="/add-product" element={<EditProduct />} />
-          <Route path="/edit-product/:id" element={<EditProduct />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="edit-categories" element={<EditCategory />} />
+          <Route path="add-categories" element={<AddCategory />} />
+          <Route path="edit-categories/:id" element={<AddCategory />} />
 
-          <Route path="/order-management" element={<OrderManagement />} />
-          <Route path="/order-details" element={<OrderDetails />} />
+          <Route path="product-management" element={<ProXshopProducts />} />
+          <Route path="pro-product-details" element={<ProProductDetails />} />
+          <Route path="add-product" element={<EditProduct />} />
+          <Route path="edit-product/:id" element={<EditProduct />} />
 
-          <Route path="/wishlist" element={<WishList />} />
-          <Route path="/wishlist-details" element={<WishListDetails />} />
+          <Route path="order-management" element={<OrderManagement />} />
+          <Route path="order-details" element={<OrderDetails />} />
 
-          <Route path="/resources" element={<Resources />} />
+          <Route path="wishlist" element={<WishList />} />
+          <Route path="wishlist-details" element={<WishListDetails />} />
 
-          <Route path="/education" element={<EducationList />} />
-          <Route path="/edit-education" element={<EditEducation />} />
+          <Route path="resources" element={<Resources />} />
 
-          <Route path="/coupon-management" element={<CouponManagement />} />
+          <Route path="education" element={<EducationList />} />
+          <Route path="edit-education" element={<EditEducation />} />
 
-          <Route path="/gift-card-management" element={<GiftCardManagement />} />
+          <Route path="coupon-management" element={<CouponManagement />} />
 
-          <Route path="/community" element={<Community />} />
-          <Route path="/community-details" element={<CommunityDetails />} />
+          <Route path="gift-card-management" element={<GiftCardManagement />} />
 
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/notifications/new" element={<NotificationForm />} />
-          <Route path="/notifications/:id/view" element={<NotificationForm />} />
+          <Route path="community" element={<Community />} />
+          <Route path="community-details" element={<CommunityDetails />} />
 
-          <Route path="/profile" element={<UserProfile />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="notifications/new" element={<NotificationForm />} />
+          <Route path="notifications/:id/view" element={<NotificationForm />} />
 
-          <Route path="*" element={<Dashboard />} />
-         
+          <Route path="profile" element={<UserProfile />} />
+
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/forgetpassword" element={<ForgetPassword />} />
-              <Route path="/verifycode" element={<VerifyCode />} />
-              <Route path="/changepassword" element={<ChangePassword />} />
-              {/* <Route path="/verifyemail" element={<VerifyEmail />} /> */}
       </Routes>
     </BrowserRouter>
     </Provider>

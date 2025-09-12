@@ -143,6 +143,7 @@ const EditProduct: React.FC = () => {
     formData.append("detail", values.detail);
     formData.append("information", values.information);
     formData.append("xpro", values.xpro || false);
+    formData.append("points", values.points);
     formData.append("categoryId", values.categoryId || []);
 
     // Append categories
@@ -158,7 +159,8 @@ const EditProduct: React.FC = () => {
       formData.append(`variants[${variantIndex}][length]`, variant.length);
       formData.append(`variants[${variantIndex}][weight]`, variant.weight);
       formData.append(`variants[${variantIndex}][stock]`, variant.stock);
-      formData.append(`variants[${variantIndex}][colors]`, JSON.stringify(variant.colors));
+       formData.append(`variants[${variantIndex}][colors]`, variant.colors ? JSON.stringify(variant.colors) : []);
+      //formData.append(`variants[${variantIndex}][colors]`, variant.colors);
       formData.append(`variants[${variantIndex}][size]`, variant.size);
 
       // Append images
@@ -239,8 +241,15 @@ const EditProduct: React.FC = () => {
                     <Col span={12}><Form.Item name="name" label="Product Name"><Input className="custom-input" /></Form.Item></Col>
                     <Col span={12}><Form.Item name="information" label="Information"><Input className="custom-input" /></Form.Item></Col>
 
+                      <Col xs={24} lg={18}>
+                <Form.Item name="points" label="Product Points">
+                            <Input type='number' placeholder="Enter Product Points" className="custom-input" />
+                          </Form.Item>
+</Col>
+
                     <Col span={12}><Form.Item name="description" label="Product Description"><TextArea rows={10} placeholder="Enter Product Description" className="custom-textarea" /></Form.Item></Col>
                     <Col span={12}><Form.Item name="detail" getValueFromEvent={(content) => content} label="Product Details"><QuillEditor /></Form.Item></Col>
+
 
 
                     <Form.List name="variants">
@@ -349,12 +358,18 @@ const EditProduct: React.FC = () => {
                                 </Col>
 
                                 <Col span={12}>
-                                  <div className="tag-section">
-                                    <Form.Item {...restField} name={[name, "colors"]} label="Colors">
-                                      <Select mode="tags" style={{ width: "100%", height: "auto" }} placeholder="Enter tag name" />
-                                    </Form.Item>
-                                  </div>
-                                </Col>
+                                        <div className="tag-section">
+                                          <Form.Item {...restField} name={[name, "colors"]} label="Colors">
+                                            <Select style={{ width: "100%" }} placeholder="Select a color">
+                                              <Select.Option value="yellow">Yellow</Select.Option>
+                                              <Select.Option value="red">Red</Select.Option>
+                                              <Select.Option value="green">Green</Select.Option>
+                                              <Select.Option value="blue">Blue</Select.Option>
+                                              <Select.Option value="black">Black</Select.Option>
+                                            </Select>
+                                          </Form.Item>
+                                        </div>
+                                      </Col>
 
                                 <Col span={12}>
                                   <Form.Item
@@ -387,6 +402,9 @@ const EditProduct: React.FC = () => {
                             </div>
                           ))}
 
+                          {/* Points input placed just above the variation button */}
+                        
+
                           <Form.Item>
                             <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                               Add Variation
@@ -395,9 +413,12 @@ const EditProduct: React.FC = () => {
                         </>
                       )}
                     </Form.List>
+
+                   
                   </Row>
                 </div>
               </Col>
+
 
               <Col xs={24} lg={8}>
                 <div className="sidebar-section">
@@ -409,6 +430,8 @@ const EditProduct: React.FC = () => {
 
 
               </Col>
+
+               
             </Row>
 
             <div className="footer-save-button">
@@ -417,6 +440,8 @@ const EditProduct: React.FC = () => {
               </Button>
             </div>
           </Form>
+
+        
         </div>
       )}
 
