@@ -203,10 +203,10 @@ const GiftCardManagement: React.FC = () => {
             <InputNumber type='number' min={0} className="w-full" />
           </Form.Item>
           <Form.Item name="start_date" label="Start Date" rules={[{ required: true }]}>
-            <DatePicker className="w-full" format="YYYY-MM-DD" disabledDate={(d) => d && d < dayjs().startOf('day')} />
+            <DatePicker className="w-full" format="YYYY-MM-DD" disabledDate={disablePast} />
           </Form.Item>
           <Form.Item name="expire_date" label="Expire Date" rules={[{ required: true }]}>
-            <DatePicker className="w-full" format="YYYY-MM-DD" disabledDate={(d) => d && d < dayjs().startOf('day')} />
+            <DatePicker className="w-full" format="YYYY-MM-DD" disabledDate={disablePast} />
           </Form.Item>
           <Form.Item name="discount" label="Discount" rules={[{ required: true }]}>
             <InputNumber type='number' min={0} className="w-full" />
