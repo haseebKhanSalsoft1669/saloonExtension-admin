@@ -6,7 +6,10 @@ import { orderSlice } from "./services/orderSlice";
 import { userManagementSlice } from "./services/userManagementSlice";
 import { categorySlice } from "./services/categorySlice";
 import { productSlice } from "./services/productSlice";
+import { contentSlice } from "./services/contentSlice";
+import { couponSlice } from "./services/couponSlice";
 import { authApi } from "./services/authSlice";
+import { giftCardSlice } from "./services/giftCardSlice";
 import authReducer from "./slices/authSlice";
 
 export const store = configureStore({
@@ -19,9 +22,12 @@ export const store = configureStore({
     [userManagementSlice.reducerPath]: userManagementSlice.reducer,
     [categorySlice.reducerPath]: categorySlice.reducer,
     [productSlice.reducerPath]: productSlice.reducer,
+    [contentSlice.reducerPath]: contentSlice.reducer,
+    [couponSlice.reducerPath]: couponSlice.reducer,
+    [giftCardSlice.reducerPath]: giftCardSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware).concat(authApi.middleware).concat(verifySlice.middleware).concat(orderSlice.middleware).concat(userManagementSlice.middleware).concat(categorySlice.middleware).concat(productSlice.middleware), // Add RTK Query middleware
+    getDefaultMiddleware().concat(apiSlice.middleware).concat(authApi.middleware).concat(verifySlice.middleware).concat(orderSlice.middleware).concat(userManagementSlice.middleware).concat(categorySlice.middleware).concat(productSlice.middleware).concat(contentSlice.middleware).concat(couponSlice.middleware).concat(giftCardSlice.middleware), // Add RTK Query middleware
 });
 
 setupListeners(store.dispatch);

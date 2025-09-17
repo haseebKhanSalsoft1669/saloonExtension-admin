@@ -30,11 +30,13 @@ import WishList from './pages/wishList';
 import WishListDetails from './pages/wishList/wishListDetails';
 
 import Resources from './pages/resources';
+import ContentDetails from './pages/resources/contentDetails';
 
 import EducationList from './pages/education';
 import EditEducation from './pages/education/editEducation';
 
 import CouponManagement from './pages/couponManagement';
+import CouponDetails from './pages/couponManagement/details';
 
 import GiftCardManagement from './pages/giftCardManagement';
 
@@ -131,11 +133,13 @@ const App = () => (
           <Route path="wishlist-details" element={<WishListDetails />} />
 
           <Route path="resources" element={<Resources />} />
+          <Route path="resources/view/:id" element={<ContentDetails />} />
 
           <Route path="education" element={<EducationList />} />
           <Route path="edit-education" element={<EditEducation />} />
 
           <Route path="coupon-management" element={<CouponManagement />} />
+          <Route path="coupon-details/:id" element={<CouponDetails />} />
 
           <Route path="gift-card-management" element={<GiftCardManagement />} />
 

@@ -150,6 +150,11 @@ span.svgbg {
 .ant-modal .ant-modal-content{
   background-color: var(--primary-color) !important;
 }
+/* Ensure modal form labels are visible */
+.ant-modal-body .ant-form-item-label > label {
+  color: var(--text-primary) !important;
+  opacity: 1 !important;
+}
 /* MENU STYLING */
 .ant-menu {
   background-color: var(--bg-sidebar) !important;
