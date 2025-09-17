@@ -53,17 +53,17 @@ export const menuItems = [
     icon: <CopyPlus  size={18} />,
   },
 
-  {
-    key: '/education',
-    label: 'Education',
-    icon: <GraduationCap  size={18} />,
-  },
+  // {
+  //   key: '/education',
+  //   label: 'Education',
+  //   icon: <GraduationCap  size={18} />,
+  // },
 
-  {
-    key: '/wishlist',
-    label: 'Wishlist',
-    icon: <Heart  size={18} />,
-  },
+  // {
+  //   key: '/wishlist',
+  //   label: 'Wishlist',
+  //   icon: <Heart  size={18} />,
+  // },
 
   {
     key: '/coupon-management',
