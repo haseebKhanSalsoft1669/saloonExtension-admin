@@ -246,17 +246,71 @@ const CouponManagement: React.FC = () => {
             <Button onClick={() => refetchView()}>Retry</Button>
           </>
         ) : viewData ? (
-          <Descriptions column={1} bordered>
-            <Descriptions.Item label="Title">{viewData.title ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Description">{viewData.desc ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Discount">{viewData.discount ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Limit">{viewData.limit ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Price/Points">{viewData.price_or_points ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Start Date">{viewData.start_date ? new Date(viewData.start_date).toLocaleString() : '-'}</Descriptions.Item>
-            <Descriptions.Item label="Expire Date">{viewData.expire_date ? new Date(viewData.expire_date).toLocaleString() : '-'}</Descriptions.Item>
-            <Descriptions.Item label="Created At">{viewData.createdAt ? new Date(viewData.createdAt).toLocaleString() : '-'}</Descriptions.Item>
-            <Descriptions.Item label="Updated At">{viewData.updatedAt ? new Date(viewData.updatedAt).toLocaleString() : '-'}</Descriptions.Item>
-          </Descriptions>
+            <Form layout="vertical">
+    <Form.Item label="Title">
+      <Input value={viewData?.title ?? "-"} disabled />
+    </Form.Item>
+
+    <Form.Item label="Description">
+      <Input.TextArea value={viewData?.desc ?? "-"} rows={3} disabled />
+    </Form.Item>
+
+    <Form.Item label="Discount">
+      <Input value={viewData?.discount ?? "-"} disabled />
+    </Form.Item>
+
+    <Form.Item label="Limit">
+      <Input value={viewData?.limit ?? "-"} disabled />
+    </Form.Item>
+
+    <Form.Item label="Price / Points">
+      <Input value={viewData?.price_or_points ?? "-"} disabled />
+    </Form.Item>
+
+    <Form.Item label="Start Date">
+      <Input
+        value={
+          viewData?.start_date
+            ? new Date(viewData.start_date).toLocaleString()
+            : "-"
+        }
+        disabled
+      />
+    </Form.Item>
+
+    <Form.Item label="Expire Date">
+      <Input
+        value={
+          viewData?.expire_date
+            ? new Date(viewData.expire_date).toLocaleString()
+            : "-"
+        }
+        disabled
+      />
+    </Form.Item>
+
+    <Form.Item label="Created At">
+      <Input
+        value={
+          viewData?.createdAt
+            ? new Date(viewData.createdAt).toLocaleString()
+            : "-"
+        }
+        disabled
+      />
+    </Form.Item>
+
+    <Form.Item label="Updated At">
+      <Input
+        value={
+          viewData?.updatedAt
+            ? new Date(viewData.updatedAt).toLocaleString()
+            : "-"
+        }
+        disabled
+      />
+    </Form.Item>
+  </Form>
         ) : (
           <Descriptions column={1} bordered>
             <Descriptions.Item label="Status">No data found</Descriptions.Item>
