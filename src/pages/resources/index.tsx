@@ -1,19 +1,20 @@
-import { Button, Card, Input, Modal, Space, Table, Form, message, Upload } from 'antd';
+import { Button, Card, Input, Modal, Space, Table, Form, message, Upload , Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { Edit, Search, Trash2, Eye, Plus, UploadCloud } from 'lucide-react';
+import { Edit, Search, Trash2, Plus, UploadCloud } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import '../../styles/Common.css';
 import { useDeleteContentMutation, useGetAllContentsQuery, useAddContentMutation, useUpdateContentMutation, type ContentItem } from '../../redux/services/contentSlice';
-
+import { UPLOADS_URL  } from '../../constants/api'
 const { Search: AntSearch } = Input;
 
 const Resources: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedContent, setSelectedContent] = useState<ContentItem | null>(null);
   const [form] = Form.useForm();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [deleteContent, { isLoading: isDeleting }] = useDeleteContentMutation();
   const [addContent, { isLoading: isCreating }] = useAddContentMutation();
   const [updateContent, { isLoading: isUpdating }] = useUpdateContentMutation();
@@ -26,12 +27,14 @@ const Resources: React.FC = () => {
 
   const openCreate = () => {
     setEditingId(null);
+    setSelectedContent(null);
     form.resetFields();
     setIsModalOpen(true);
   };
 
   const openEdit = (record: ContentItem) => {
     setEditingId(record._id);
+    setSelectedContent(record);
     // Do not prefill Upload with URL in fileList; leave it empty for optional change
     form.setFieldsValue({ title: record.title, desc: record.desc });
     setIsModalOpen(true);
@@ -110,7 +113,7 @@ const Resources: React.FC = () => {
       key: 'action',
       render: (_: unknown, record: ContentItem) => (
         <Space>
-          <Button icon={<Eye size={16} />} onClick={() => navigate(`/resources/view/${record._id}`)} />
+          {/* <Button icon={<Eye size={16} />} onClick={() => navigate(`/resources/view/${record._id}`)} /> */}
           <Button icon={<Edit size={16} />} onClick={() => openEdit(record)} />
           <Button danger icon={<Trash2 size={16} />} onClick={() => handleDelete(record._id)} />
         </Space>
@@ -172,13 +175,23 @@ const Resources: React.FC = () => {
             valuePropName="fileList"
             getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
           >
-            <Upload
-              maxCount={1}
-              listType="picture"
-              beforeUpload={() => false}
-            >
-              <Button icon={<UploadCloud size={16} />}>Select Image</Button>
-            </Upload>
+              {editingId && selectedContent?.content_image ? (
+                <>
+                <Image
+                  src={`${UPLOADS_URL}${selectedContent.content_image}`}
+                  alt={selectedContent.title}
+                  width="100%"
+                  style={{ borderRadius: 8 }}
+                />
+                 <Upload maxCount={1} listType="picture" beforeUpload={() => false}>
+                  <Button icon={<UploadCloud size={16} />}>Select Image</Button>
+                </Upload>
+                </>
+              ) : (
+                <Upload maxCount={1} listType="picture" beforeUpload={() => false}>
+                  <Button icon={<UploadCloud size={16} />}>Select Image</Button>
+                </Upload>
+              )}
           </Form.Item>
         </Form>
       </Modal>

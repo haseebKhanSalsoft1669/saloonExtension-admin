@@ -39,7 +39,14 @@ const GiftCardManagement: React.FC = () => {
 
   const disablePast = (current: dayjs.Dayjs) => current && current < dayjs().startOf('day');
 
-  const { data: viewData, isFetching: isViewFetching } = useGetGiftByIdQuery(viewId as string, { skip: !viewId });
+  const { data: viewData, isLoading: isViewFetching } = useGetGiftByIdQuery(viewId as string, { skip: !viewId,refetchOnMountOrArgChange: true,
+refetchOnFocus: true,
+refetchOnReconnect: true, });
+
+  console.log("viewData", viewData);
+  console.log("isViewFetching", isViewFetching);
+  
+  
 
   const openCreate = () => {
     setEditingId(null);
@@ -153,6 +160,10 @@ const GiftCardManagement: React.FC = () => {
     },
   ];
 
+
+  console.log("isViewFetching", isViewFetching);
+  
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -231,17 +242,60 @@ const GiftCardManagement: React.FC = () => {
             </Descriptions>
           </div>
         ) : (
-          <Descriptions column={1} bordered>
-            <Descriptions.Item label="Title">{(viewData as GiftCard | undefined)?.title ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Description">{(viewData as GiftCard | undefined)?.desc ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Price/Points">{(viewData as GiftCard | undefined)?.price_or_points ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Start Date">{(viewData as GiftCard | undefined)?.start_date ? new Date((viewData as GiftCard).start_date).toLocaleString() : '-'}</Descriptions.Item>
-            <Descriptions.Item label="Expire Date">{(viewData as GiftCard | undefined)?.expire_date ? new Date((viewData as GiftCard).expire_date).toLocaleString() : '-'}</Descriptions.Item>
-            <Descriptions.Item label="Discount">{(viewData as GiftCard | undefined)?.discount ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Limit">{(viewData as GiftCard | undefined)?.limit ?? '-'}</Descriptions.Item>
-            <Descriptions.Item label="Created At">{(viewData as GiftCard | undefined)?.createdAt ? new Date((viewData as GiftCard).createdAt as string).toLocaleString() : '-'}</Descriptions.Item>
-            <Descriptions.Item label="Updated At">{(viewData as GiftCard | undefined)?.updatedAt ? new Date((viewData as GiftCard).updatedAt as string).toLocaleString() : '-'}</Descriptions.Item>
-          </Descriptions>
+          <Form layout="vertical">
+            <Form.Item label="Title">
+              <Input value={viewData?.title ?? "-"} disabled  className="w-full"/>
+            </Form.Item>
+
+            <Form.Item label="Description">
+              <Input value={viewData?.desc ?? "-"} disabled className="w-full"/>
+            </Form.Item>
+
+            <Form.Item label="Price/Points">
+              <Input value={viewData?.price_or_points ?? "-"} disabled className="w-full"/>
+            </Form.Item>
+
+            <Form.Item label="Start Date">
+              <Input
+                value={
+                  viewData?.start_date
+                    ? new Date(viewData.start_date).toLocaleString()
+                    : "-"
+                }
+                disabled
+              />
+            </Form.Item>
+
+            <Form.Item label="Expire Date">
+              <Input
+                value={
+                  viewData?.expire_date
+                    ? new Date(viewData.expire_date).toLocaleString()
+                    : "-"
+                }
+                disabled
+              />
+            </Form.Item>
+
+            <Form.Item label="Discount">
+              <Input value={viewData?.discount ?? "-"} disabled className="w-full" />
+            </Form.Item>
+
+            <Form.Item label="Limit">
+              <Input value={viewData?.limit ?? "-"} disabled className="w-full" />
+            </Form.Item>
+
+            <Form.Item label="Created At">
+              <Input
+                value={
+                  viewData?.createdAt
+                    ? new Date(viewData.createdAt as string).toLocaleString()
+                    : "-"
+                }
+                disabled
+              />
+            </Form.Item>
+          </Form>
         )}
       </Modal>
     </div>

@@ -1,9 +1,10 @@
-import { Card, Descriptions, Image, Skeleton, Typography } from 'antd';
+import { Card,Row,Col, Form, Input, Image, Skeleton, Typography } from 'antd';
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetContentByIdQuery, type ContentItem } from '../../redux/services/contentSlice';
+import { UPLOADS_URL } from '../../constants/api'
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Text } = Typography;
 
 const ContentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,23 +32,62 @@ const ContentDetails: React.FC = () => {
         <a onClick={() => navigate(-1)}>Back</a>
       </div>
 
-      <Card>
-        <Descriptions column={1} bordered>
-          <Descriptions.Item label="Title">{content.title}</Descriptions.Item>
-          <Descriptions.Item label="Description">
-            <Paragraph style={{ whiteSpace: 'pre-wrap', marginBottom: 0 }}>{content.desc}</Paragraph>
-          </Descriptions.Item>
-          <Descriptions.Item label="Image">
-            {content.content_image ? (
-              <Image src={content.content_image} alt={content.title} width={240} />
-            ) : (
-              <Text type="secondary">No image</Text>
-            )}
-          </Descriptions.Item>
-          <Descriptions.Item label="Created At">{content.createdAt ? new Date(content.createdAt).toLocaleString() : '-'}</Descriptions.Item>
-          <Descriptions.Item label="Updated At">{content.updatedAt ? new Date(content.updatedAt).toLocaleString() : '-'}</Descriptions.Item>
-        </Descriptions>
-      </Card>
+<Card
+  title="Content Details"
+  bordered={false}
+  style={{ maxWidth: 900, margin: "20px auto", boxShadow: "0 2px 12px rgba(0,0,0,0.1)" }}
+>
+  <Row gutter={24} align="top">
+    {/* Left Side: Image */}
+    <Col span={8}>
+      {content?.content_image ? (
+        <Image
+          src={`${UPLOADS_URL}${content.content_image}`}
+          alt={content?.title}
+          width="100%"
+          style={{ borderRadius: 8 }}
+        />
+      ) : (
+        <Text type="secondary">No image</Text>
+      )}
+    </Col>
+
+    {/* Right Side: Form */}
+    <Col span={16}>
+      <Form layout="vertical">
+        <Form.Item label="Title">
+          <Input value={content?.title ?? "-"} disabled />
+        </Form.Item>
+
+        <Form.Item label="Description">
+          <Input.TextArea value={content?.desc ?? "-"} rows={100} disabled />
+        </Form.Item>
+
+        <Form.Item label="Created At">
+          <Input
+            value={
+              content?.createdAt
+                ? new Date(content.createdAt).toLocaleString()
+                : "-"
+            }
+            disabled
+          />
+        </Form.Item>
+
+        <Form.Item label="Updated At">
+          <Input
+            value={
+              content?.updatedAt
+                ? new Date(content.updatedAt).toLocaleString()
+                : "-"
+            }
+            disabled
+          />
+        </Form.Item>
+      </Form>
+    </Col>
+  </Row>
+</Card>
     </div>
   );
 };
