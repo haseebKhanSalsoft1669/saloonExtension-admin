@@ -1,4 +1,6 @@
-import { Alert, Button, Card, DatePicker, Descriptions, Form, Input, InputNumber, Modal, Space, Table, message } from 'antd';
+import { Alert, Button, Card, DatePicker, Descriptions, Form, Input, InputNumber, Modal, Space, Table, message,Spin,
+  Typography,Badge,
+  Tag, } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
 import React from 'react';
@@ -7,7 +9,7 @@ import dayjs from 'dayjs';
 import { useAddCouponMutation, useDeleteCouponMutation, useGetAllCouponsQuery, useGetCouponByIdQuery, useUpdateCouponMutation, type Coupon } from '../../redux/services/couponSlice';
 
 const { Search: AntSearch } = Input;
-
+const { Text } = Typography;
 type CouponFormValues = {
   title: string;
   desc: string;
@@ -16,6 +18,7 @@ type CouponFormValues = {
   discount: number;
   limit: number;
   price_or_points: number;
+  status : string
 };
 
 const CouponManagement: React.FC = () => {
@@ -157,6 +160,9 @@ const CouponManagement: React.FC = () => {
     },
   ];
 
+
+
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -221,103 +227,136 @@ const CouponManagement: React.FC = () => {
         </Form>
       </Modal>
 
-      <Modal
-        title="Coupon Details"
-        open={!!viewId}
-        onCancel={() => setViewId(null)}
-        footer={null}
-        destroyOnClose
-      >
-        {isViewFetching ? (
-          <div style={{ padding: 12 }}>
-            <Descriptions column={1} bordered>
-              <Descriptions.Item label="Loading">Please wait...</Descriptions.Item>
-            </Descriptions>
+      
+  <Modal
+      title={
+      <Text strong style={{ fontSize: 18 }}>🎟️ Coupon Details</Text>}
+      open={!!viewId}
+      onCancel={() => setViewId(null)}
+      footer={null}
+      destroyOnClose
+      bodyStyle={{ padding: 20, background: "#fff" }} // ✅ keep white bg so content is visible
+    >
+      {isViewFetching ? (
+        <div style={{ textAlign: "center", padding: "40px 0" }}>
+          <Spin tip="Loading coupon details..." size="large" />
+        </div>
+      ) : isViewError ? (
+        <>
+          <Alert
+            type="error"
+            showIcon
+            message="Failed to load coupon details"
+            description={
+              (viewError as unknown as { data?: { message?: string } })?.data
+                ?.message || "An error occurred."
+            }
+            style={{ marginBottom: 16 }}
+          />
+          <div style={{ textAlign: "center" }}>
+            <Button type="primary" onClick={() => refetchView()}>
+              Retry
+            </Button>
           </div>
-        ) : isViewError ? (
-          <>
-            <Alert
-              type="error"
-              showIcon
-              message="Failed to load coupon details"
-              description={(viewError as unknown as { data?: { message?: string } })?.data?.message || 'An error occurred.'}
-              style={{ marginBottom: 12 }}
-            />
-            <Button onClick={() => refetchView()}>Retry</Button>
-          </>
-        ) : viewData ? (
-            <Form layout="vertical">
-    <Form.Item label="Title">
-      <Input value={viewData?.title ?? "-"} disabled />
-    </Form.Item>
+        </>
+      ) : viewData ? (
+        <Descriptions
+          bordered
+          column={1}
+          size="middle"
+          labelStyle={{
+            width: 160,
+            fontWeight: 600,
+            background: "#f0f2f5", // light gray bg for labels
+            color: "#000",         // black text for labels
+          }}
+          contentStyle={{
+            background: "#fff",    // pure white for content
+            color: "#000",         // black text for values
+          }}
+        >
+          <Descriptions.Item label="Title">
+            {viewData?.title || <Text type="secondary">-</Text>}
+          </Descriptions.Item>
 
-    <Form.Item label="Description">
-      <Input.TextArea value={viewData?.desc ?? "-"} rows={3} disabled />
-    </Form.Item>
+          <Descriptions.Item label="Description">
+            {viewData?.desc || <Text type="secondary">-</Text>}
+          </Descriptions.Item>
 
-    <Form.Item label="Discount">
-      <Input value={viewData?.discount ?? "-"} disabled />
-    </Form.Item>
+          <Descriptions.Item label="Discount">
+            <Tag color="green">{viewData?.discount || "-"}</Tag>
+          </Descriptions.Item>
 
-    <Form.Item label="Limit">
-      <Input value={viewData?.limit ?? "-"} disabled />
-    </Form.Item>
+          <Descriptions.Item label="Limit">
+            {viewData?.limit || <Text type="secondary">-</Text>}
+          </Descriptions.Item>
 
-    <Form.Item label="Price / Points">
-      <Input value={viewData?.price_or_points ?? "-"} disabled />
-    </Form.Item>
+          <Descriptions.Item label="Price / Points">
+            <Tag color="blue">{viewData?.price_or_points || "-"}</Tag>
+          </Descriptions.Item>
 
-    <Form.Item label="Start Date">
-      <Input
-        value={
-          viewData?.start_date
-            ? new Date(viewData.start_date).toLocaleString()
-            : "-"
-        }
-        disabled
-      />
-    </Form.Item>
+          <Descriptions.Item label="Start Date">
+            {viewData?.start_date
+              ? new Date(viewData.start_date).toLocaleString()
+              : <Text type="secondary">-</Text>}
+          </Descriptions.Item>
 
-    <Form.Item label="Expire Date">
-      <Input
-        value={
-          viewData?.expire_date
-            ? new Date(viewData.expire_date).toLocaleString()
-            : "-"
-        }
-        disabled
-      />
-    </Form.Item>
+          <Descriptions.Item label="Expire Date">
+            {viewData?.expire_date
+              ? new Date(viewData.expire_date).toLocaleString()
+              : <Text type="secondary">-</Text>}
+          </Descriptions.Item>
 
-    <Form.Item label="Created At">
-      <Input
-        value={
-          viewData?.createdAt
-            ? new Date(viewData.createdAt).toLocaleString()
-            : "-"
-        }
-        disabled
-      />
-    </Form.Item>
+              
+          
+    <Descriptions.Item label="Status">
+  {viewData?.status === "active" ? (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Badge status="success" />
+      <span style={{ marginLeft: 8, fontSize: 13 }}>Active</span>
+    </div>
+  ) : viewData?.status === "redeem" ? (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Badge status="warning" />
+      <span style={{ marginLeft: 8, fontSize: 13 }}>Redeemed</span>
+    </div>
+  ) : viewData?.status === "expired" ? (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Badge status="error" />
+      <span style={{ marginLeft: 8, fontSize: 13 }}>Expired</span>
+    </div>
+  ) : (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Badge status="default" />
+      <span style={{ marginLeft: 8, fontSize: 13 }}>Inactive</span>
+    </div>
+  )}
+</Descriptions.Item>
 
-    <Form.Item label="Updated At">
-      <Input
-        value={
-          viewData?.updatedAt
-            ? new Date(viewData.updatedAt).toLocaleString()
-            : "-"
-        }
-        disabled
-      />
-    </Form.Item>
-  </Form>
-        ) : (
-          <Descriptions column={1} bordered>
-            <Descriptions.Item label="Status">No data found</Descriptions.Item>
-            <Descriptions.Item label="ID">{viewId}</Descriptions.Item>
-          </Descriptions>
-        )}
-      </Modal>
+             
+          <Descriptions.Item label="Created At">
+            {viewData?.createdAt
+              ? new Date(viewData.createdAt).toLocaleString()
+              : <Text type="secondary">-</Text>}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="Updated At">
+            {viewData?.updatedAt
+              ? new Date(viewData.updatedAt).toLocaleString()
+              : <Text type="secondary">-</Text>}
+          </Descriptions.Item>
+        </Descriptions>
+      ) : (
+        <Descriptions bordered column={1}>
+          <Descriptions.Item label="Status">
+            <Text type="warning">No data found</Text>
+          </Descriptions.Item>
+          <Descriptions.Item label="ID">{viewId}</Descriptions.Item>
+        </Descriptions>
+      )}
+    </Modal>
+
+
     </div>
   );
 };

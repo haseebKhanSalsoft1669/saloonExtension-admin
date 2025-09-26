@@ -1,4 +1,4 @@
-import { Button, Card, Input, Modal, Space, Table, Form, message, Upload , Image } from 'antd';
+import { Button, Card, Input, Modal, Space, Table, Form, message, Upload } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Edit, Search, Trash2, Plus, UploadCloud } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
@@ -36,7 +36,11 @@ const Resources: React.FC = () => {
     setEditingId(record._id);
     setSelectedContent(record);
     // Do not prefill Upload with URL in fileList; leave it empty for optional change
-    form.setFieldsValue({ title: record.title, desc: record.desc });
+    form.setFieldsValue({ title: record.title, desc: record.desc , content_image: record.content_image ? [{
+      uid: '-1',
+      name: "View",
+        url: `${UPLOADS_URL}${record.content_image}`,
+    }] : [] });
     setIsModalOpen(true);
   };
 
@@ -64,9 +68,22 @@ const Resources: React.FC = () => {
       const formData = new FormData();
       formData.append('title', values.title);
       formData.append('desc', values.desc);
-      const fileList = (values.content_image as Array<{ originFileObj?: File }> | undefined) ?? [];
-      const firstFile = fileList[0]?.originFileObj;
-      if (firstFile) formData.append('content_image', firstFile);
+
+      // const fileList = (values.content_image as Array<{ originFileObj?: File }> | undefined) ?? [];
+      // const firstFile = fileList[0]?.originFileObj;
+      // if (firstFile) formData.append('content_image', firstFile);
+
+
+      const fileList = values.content_image ?? [];
+    const firstFile = fileList[0]?.originFileObj;
+
+    // ✅ Only append if a new image is chosen
+    if (firstFile) {
+      formData.append("content_image", firstFile);
+    }
+
+
+
       if (editingId) {
         await updateContent({ id: editingId, body: formData }).unwrap();
         message.success('Updated successfully');
@@ -95,13 +112,14 @@ const Resources: React.FC = () => {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
+        render: (value: string) => value.length > 30 ? `${value.substring(0, 30)} ...` : value,
     },
     {
       title: 'Description',
       dataIndex: 'desc',
       key: 'desc',
       ellipsis: true,
-      render: (value: string) => value.length > 100 ? `${value.substring(0, 100)}...` : value,
+      render: (value: string) => value.length > 100 ? `${value.substring(0, 100)}  ...` : value,
     },
     {
       title: 'Updated',
@@ -170,29 +188,31 @@ const Resources: React.FC = () => {
             <Input.TextArea rows={4} placeholder="Enter description" />
           </Form.Item>
           <Form.Item
-            name="content_image"
-            label="Content Image"
-            valuePropName="fileList"
-            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-          >
-              {editingId && selectedContent?.content_image ? (
-                <>
-                <Image
-                  src={`${UPLOADS_URL}${selectedContent.content_image}`}
-                  alt={selectedContent.title}
-                  width="100%"
-                  style={{ borderRadius: 8 }}
-                />
-                 <Upload maxCount={1} listType="picture" beforeUpload={() => false}>
+                name="content_image"
+                label="Content Image"
+                valuePropName="fileList"
+                getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+              >
+                <Upload
+                  maxCount={1}
+                  listType="picture"
+                  beforeUpload={() => false} // prevent auto-upload
+                  defaultFileList={
+                    editingId && selectedContent?.content_image
+                      ? [
+                          {
+                            uid: '-1',
+                            name: selectedContent.content_image,
+                            status: 'done',
+                            url: `${UPLOADS_URL}${selectedContent.content_image}`,
+                          },
+                        ]
+                      : []
+                  }
+                >
                   <Button icon={<UploadCloud size={16} />}>Select Image</Button>
                 </Upload>
-                </>
-              ) : (
-                <Upload maxCount={1} listType="picture" beforeUpload={() => false}>
-                  <Button icon={<UploadCloud size={16} />}>Select Image</Button>
-                </Upload>
-              )}
-          </Form.Item>
+              </Form.Item>
         </Form>
       </Modal>
     </div>
