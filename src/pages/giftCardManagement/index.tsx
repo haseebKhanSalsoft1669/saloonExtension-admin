@@ -1,4 +1,4 @@
-import { Button, Card, DatePicker, Descriptions, Form, Input, InputNumber, Modal, Space, Table, message } from 'antd';
+import { Button, Card, DatePicker, Descriptions, Form,Input, InputNumber, Modal, Space, Table, message, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
 import React from 'react';
@@ -39,11 +39,11 @@ const GiftCardManagement: React.FC = () => {
 
   const disablePast = (current: dayjs.Dayjs) => current && current < dayjs().startOf('day');
 
-  const { data: viewData, isLoading: isViewFetching } = useGetGiftByIdQuery(viewId as string, { skip: !viewId,refetchOnMountOrArgChange: true,
+  const { data: isViewFetching } = useGetGiftByIdQuery(viewId as string, { skip: !viewId,refetchOnMountOrArgChange: true,
 refetchOnFocus: true,
 refetchOnReconnect: true, });
 
-  console.log("viewData", viewData);
+  console.log("isViewFetching", isViewFetching);
   console.log("isViewFetching", isViewFetching);
   
   
@@ -235,68 +235,79 @@ refetchOnReconnect: true, });
         footer={null}
         destroyOnClose
       >
-        {isViewFetching ? (
-          <div style={{ padding: 12 }}>
-            <Descriptions column={1} bordered>
-              <Descriptions.Item label="Loading">Please wait...</Descriptions.Item>
-            </Descriptions>
-          </div>
+        {isViewFetching && (
+          <Descriptions
+      bordered
+      column={1}
+      size="middle"
+      labelStyle={{
+        width: 160,
+        fontWeight: 600,
+        background: "#f0f2f5",
+        color: "#000",
+      }}
+      contentStyle={{
+        background: "#fff",
+        color: "#000",
+      }}
+    >
+      <Descriptions.Item label="Title">
+        {isViewFetching?.title || <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Description">
+        {isViewFetching?.desc || <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Price / Points">
+        {isViewFetching?.price_or_points || <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Start Date">
+        {isViewFetching?.start_date
+          ? new Date(isViewFetching.start_date).toLocaleString()
+          : <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Expire Date">
+        {isViewFetching?.expire_date
+          ? new Date(isViewFetching.expire_date).toLocaleString()
+          : <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Discount">
+         {isViewFetching?.discount || <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Limit">
+        {isViewFetching?.limit || <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      {/* <Descriptions.Item label="Status">
+        {isViewFetching?.status === "active" ? (
+          <Badge status="success" text="Active" />
+        ) : isViewFetching?.status === "redeem" ? (
+          <Badge status="warning" text="Redeemed" />
+        ) : isViewFetching?.status === "expired" ? (
+          <Badge status="error" text="Expired" />
         ) : (
-          <Form layout="vertical">
-            <Form.Item label="Title">
-              <Input value={viewData?.title ?? "-"} disabled  className="w-full"/>
-            </Form.Item>
-
-            <Form.Item label="Description">
-              <Input value={viewData?.desc ?? "-"} disabled className="w-full"/>
-            </Form.Item>
-
-            <Form.Item label="Price/Points">
-              <Input value={viewData?.price_or_points ?? "-"} disabled className="w-full"/>
-            </Form.Item>
-
-            <Form.Item label="Start Date">
-              <Input
-                value={
-                  viewData?.start_date
-                    ? new Date(viewData.start_date).toLocaleString()
-                    : "-"
-                }
-                disabled
-              />
-            </Form.Item>
-
-            <Form.Item label="Expire Date">
-              <Input
-                value={
-                  viewData?.expire_date
-                    ? new Date(viewData.expire_date).toLocaleString()
-                    : "-"
-                }
-                disabled
-              />
-            </Form.Item>
-
-            <Form.Item label="Discount">
-              <Input value={viewData?.discount ?? "-"} disabled className="w-full" />
-            </Form.Item>
-
-            <Form.Item label="Limit">
-              <Input value={viewData?.limit ?? "-"} disabled className="w-full" />
-            </Form.Item>
-
-            <Form.Item label="Created At">
-              <Input
-                value={
-                  viewData?.createdAt
-                    ? new Date(viewData.createdAt as string).toLocaleString()
-                    : "-"
-                }
-                disabled
-              />
-            </Form.Item>
-          </Form>
+          <Badge status="default" text="Inactive" />
         )}
+      </Descriptions.Item> */}
+
+      <Descriptions.Item label="Created At">
+        {isViewFetching?.createdAt
+          ? new Date(isViewFetching.createdAt as string).toLocaleString()
+          : <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+
+      <Descriptions.Item label="Updated At">
+        {isViewFetching?.updatedAt
+          ? new Date(isViewFetching.updatedAt as string).toLocaleString()
+          : <Typography.Text type="secondary">-</Typography.Text>}
+      </Descriptions.Item>
+    </Descriptions>
+  )}
       </Modal>
     </div>
   );
