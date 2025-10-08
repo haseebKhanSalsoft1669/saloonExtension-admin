@@ -155,9 +155,9 @@ const OrderManagement: React.FC = () => {
     {
       title: 'Action',
       key: 'action',
-      render: () => (
+      render: (text, record) => (
         <Tooltip title="View Details">
-          <Eye style={{ cursor: 'pointer' }} onClick={() => navigate('/order-details')} />
+          <Eye style={{ cursor: 'pointer' }} onClick={() => navigate('/order-details' , { state : { order: record } })} />
         </Tooltip>
       ),
     },
