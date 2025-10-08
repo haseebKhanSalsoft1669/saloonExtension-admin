@@ -1,11 +1,11 @@
-import { Col, Image, Input, Row, Select, Space, Typography } from 'antd';
+import { Col, Image, Input, Row, Space, Typography } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 
 const { Title } = Typography;
-const { Option } = Select;
+// const { Option } = Select;
 
 
 
@@ -20,7 +20,7 @@ const CommunityDetails: React.FC = () => {
       <Row justify="space-between" align="middle" style={{ marginBottom: 24 }}>
         <Col>
           <Space>
-            <ArrowLeft onClick={() => navigate('/product-management')} style={{ cursor: 'pointer', color: 'var(--text-primary)' }} />
+            <ArrowLeft onClick={() => navigate('/community')} style={{ cursor: 'pointer', color: 'var(--text-primary)' }} />
             <Title level={3} style={{ margin: 0, color: 'var(--text-primary)' }}>Community Details</Title>
           </Space>
         </Col>

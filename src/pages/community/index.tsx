@@ -1,137 +1,175 @@
-import { Button, Card, Dropdown, Input, Menu, Modal, Table, message, Space, Typography } from 'antd';
+import { Button, Card, Dropdown, Input, Menu, Modal, Table, Space, Typography } from 'antd';
 import { Edit, Eye, Search, Trash, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Common.css';
-
+import { useGetAllPostsQuery } from '../../redux/services/communitySlice'
+import type { ColumnsType } from 'antd/es/table';
 const { Search: AntSearch } = Input;
 const { Title } = Typography;
+
+interface PostUser {
+  id: number;
+  name: string;
+  postPreview: string;
+  likes: string;
+  comments: string;
+  dateposted: string;
+ 
+}
 
 const Community: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<any>(null);
+  const [userToDelete, setUserToDelete] = useState<PostUser | null>(null);
   const navigate = useNavigate();
 
-  const userData = [
-    {
-      id: 1,
-      name: 'Alice Johnson',
-      postPreview: 'Exploring the mountains this weekend...',
-      likes: '450',
-      comments: '24',
-      dateposted: "2025-07-01",
-    },
-    {
-      id: 2,
-      name: 'Michael Smith',
-      postPreview: 'Just finished reading an amazing book!',
-      likes: '320',
-      comments: '18',
-      dateposted: "2025-07-02",
-    },
-    {
-      id: 3,
-      name: 'Sophia Williams',
-      postPreview: 'New recipe alert: Homemade pasta 🍝',
-      likes: '1,200',
-      comments: '34',
-      dateposted: "2025-07-03",
-    },
-    {
-      id: 4,
-      name: 'David Brown',
-      postPreview: 'Caught this sunset while jogging...',
-      likes: '890',
-      comments: '27',
-      dateposted: "2025-07-04",
-    },
-    {
-      id: 5,
-      name: 'Emma Davis',
-      postPreview: 'Weekend vibes 🌴',
-      likes: '2,100',
-      comments: '45',
-      dateposted: "2025-07-05",
-    },
-  ];
+  interface Post {
+  id: number;
+  post_author: {
+    fullName: string;
+  };
+  post_description: string;
+  post_like: string[]; // Replace 'string' with the actual type if known
+  post_comment: string[];
+  createdAt: string;
+}
+
+  // const userData = [
+  //   {
+  //     id: 1,
+  //     name: 'Alice Johnson',
+  //     postPreview: 'Exploring the mountains this weekend...',
+  //     likes: '450',
+  //     comments: '24',
+  //     dateposted: "2025-07-01",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Michael Smith',
+  //     postPreview: 'Just finished reading an amazing book!',
+  //     likes: '320',
+  //     comments: '18',
+  //     dateposted: "2025-07-02",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Sophia Williams',
+  //     postPreview: 'New recipe alert: Homemade pasta 🍝',
+  //     likes: '1,200',
+  //     comments: '34',
+  //     dateposted: "2025-07-03",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'David Brown',
+  //     postPreview: 'Caught this sunset while jogging...',
+  //     likes: '890',
+  //     comments: '27',
+  //     dateposted: "2025-07-04",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'Emma Davis',
+  //     postPreview: 'Weekend vibes 🌴',
+  //     likes: '2,100',
+  //     comments: '45',
+  //     dateposted: "2025-07-05",
+  //   },
+  // ];
   
 
-  const showDeleteConfirm = (record: any) => {
-    setUserToDelete(record);
-    setIsModalVisible(true);
-  };
+  const { data: posts } = useGetAllPostsQuery({page:1, limit:100, keyword: searchText});
 
-  const handleDelete = () => {
-    message.success(`User "${userToDelete?.name}" deleted`);
-    setIsModalVisible(false);
-    setUserToDelete(null);
-  };
+  // const showDeleteConfirm = (record) => {
+  //   setUserToDelete(record);
+  //   setIsModalVisible(true);
+  // };
+
+  // const handleDelete = () => {
+  //   message.success(`User "${userToDelete?.name}" deleted`);
+  //   setIsModalVisible(false);
+  //   setUserToDelete(null);
+  // };
 
   const cancelDelete = () => {
     setIsModalVisible(false);
     setUserToDelete(null);
   };
 
-  const columns = [
-    {
-      title: 'S.No',
-      dataIndex: 'id',
-      key: 'sno',
-      render: (_: any, __: any, index: number) => index + 1,
+  const columns: ColumnsType<Post> = [
+  {
+    title: 'S.No',
+    dataIndex: 'id',
+    key: 'sno',
+    render: (_, __, index) => index + 1,
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    render: (_, record) => <span>{record?.post_author?.fullName}</span>,
+  },
+  {
+    title: 'Post Preview',
+    dataIndex: 'post_description',
+    key: 'post_description',
+    render: (_, record) => (
+      <span>{record?.post_description.slice(0, 50) + "..." + "more"}</span>
+    ),
+  },
+  {
+    title: 'Likes',
+    dataIndex: 'likes',
+    key: 'likes',
+    render: (_, record) => <span>{record?.post_like.length || 0}</span>,
+  },
+  {
+    title: 'Comments',
+    dataIndex: 'comments',
+    key: 'comments',
+    render: (_, record) => <span>{record?.post_comment.length || 0}</span>,
+  },
+  {
+    title: 'Date posted',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (k) =>
+      new Date(k).toLocaleDateString() + ' ' + new Date(k).toLocaleTimeString(),
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: () => {
+      const menu = (
+        <Menu>
+          <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/community-details')}>
+            Edit
+          </Menu.Item>
+          <Menu.Item
+            key="delete"
+            icon={<Trash size={16} />}
+            // onClick={() => showDeleteConfirm(record)}
+          >
+            Ban
+          </Menu.Item>
+        </Menu>
+      );
+      return (
+        <Dropdown overlay={menu} trigger={['click']}>
+          <Button icon={<Eye size={16} />} />
+        </Dropdown>
+      );
     },
-    
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Post Preview',
-      dataIndex: 'postPreview',
-      key: 'postPreview',
-    },
-    {
-      title: 'Likes',
-      dataIndex: 'likes',
-      key: 'likes',
-    },
-    {
-      title: 'Comments',
-      dataIndex: 'comments',
-      key: 'comments',
-    },
-    {
-        title: 'Date posted',
-        dataIndex: 'dateposted',
-        key: 'dateposted',
-      },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_: any, record: any) => {
-        const menu = (
-          <Menu>
-            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/community-details')}>
-              Edit
-            </Menu.Item>
-            <Menu.Item key="delete" icon={<Trash size={16} />} onClick={() => showDeleteConfirm(record)}>
-              Ban
-            </Menu.Item>
-          </Menu>
-        );
-        return (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <Button icon={<Eye size={16} />} />
-          </Dropdown>
-        );
-      },
-    },
-  ];
+  },
+];
 
-  const filteredData = userData.filter(user =>
-    user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    user.postPreview.toLowerCase().includes(searchText.toLowerCase())
+
+
+
+  const filteredData = posts?.post.filter((user : Post) =>
+    user?.post_author?.fullName?.toLowerCase().includes(searchText.toLowerCase()) ||
+    user.post_description.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
