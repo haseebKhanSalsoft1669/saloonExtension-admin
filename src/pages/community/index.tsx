@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Common.css';
 import { useGetAllPostsQuery } from '../../redux/services/communitySlice'
+import type { ColumnsType } from 'antd/es/table';
 const { Search: AntSearch } = Input;
 const { Title } = Typography;
 
@@ -14,6 +15,7 @@ interface PostUser {
   likes: string;
   comments: string;
   dateposted: string;
+ 
 }
 
 const Community: React.FC = () => {
@@ -28,6 +30,9 @@ const Community: React.FC = () => {
     fullName: string;
   };
   post_description: string;
+  post_like: string[]; // Replace 'string' with the actual type if known
+  post_comment: string[];
+  createdAt: string;
 }
 
   // const userData = [
@@ -76,10 +81,10 @@ const Community: React.FC = () => {
 
   const { data: posts } = useGetAllPostsQuery({page:1, limit:100, keyword: searchText});
 
-  const showDeleteConfirm = (record: any) => {
-    setUserToDelete(record);
-    setIsModalVisible(true);
-  };
+  // const showDeleteConfirm = (record) => {
+  //   setUserToDelete(record);
+  //   setIsModalVisible(true);
+  // };
 
   // const handleDelete = () => {
   //   message.success(`User "${userToDelete?.name}" deleted`);
@@ -92,66 +97,73 @@ const Community: React.FC = () => {
     setUserToDelete(null);
   };
 
-  const columns = [
-    {
-      title: 'S.No',
-      dataIndex: 'id',
-      key: 'sno',
-      render: (_: any, __: any, index: number) => index + 1,
+  const columns: ColumnsType<Post> = [
+  {
+    title: 'S.No',
+    dataIndex: 'id',
+    key: 'sno',
+    render: (_, __, index) => index + 1,
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    render: (_, record) => <span>{record?.post_author?.fullName}</span>,
+  },
+  {
+    title: 'Post Preview',
+    dataIndex: 'post_description',
+    key: 'post_description',
+    render: (_, record) => (
+      <span>{record?.post_description.slice(0, 50) + "..." + "more"}</span>
+    ),
+  },
+  {
+    title: 'Likes',
+    dataIndex: 'likes',
+    key: 'likes',
+    render: (_, record) => <span>{record?.post_like.length || 0}</span>,
+  },
+  {
+    title: 'Comments',
+    dataIndex: 'comments',
+    key: 'comments',
+    render: (_, record) => <span>{record?.post_comment.length || 0}</span>,
+  },
+  {
+    title: 'Date posted',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (k) =>
+      new Date(k).toLocaleDateString() + ' ' + new Date(k).toLocaleTimeString(),
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: () => {
+      const menu = (
+        <Menu>
+          <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/community-details')}>
+            Edit
+          </Menu.Item>
+          <Menu.Item
+            key="delete"
+            icon={<Trash size={16} />}
+            // onClick={() => showDeleteConfirm(record)}
+          >
+            Ban
+          </Menu.Item>
+        </Menu>
+      );
+      return (
+        <Dropdown overlay={menu} trigger={['click']}>
+          <Button icon={<Eye size={16} />} />
+        </Dropdown>
+      );
     },
-    
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (_: any, record: any) => <span>{record?.post_author?.fullName}</span>
-    },
-    {
-      title: 'Post Preview',
-      dataIndex: 'post_description',
-      key: 'post_description',
-      render: (_: any, record: any) => <span>{record?.post_description.slice(0, 50) + "  " + "..." + "more"}</span>
-    },
-    {
-      title: 'Likes',
-      dataIndex: 'likes',
-      key: 'likes',
-      render: (_: any, record: any) => <span>{record?.post_like.length || 0}</span>
-    },
-    {
-      title: 'Comments',
-      dataIndex: 'comments',
-      key: 'comments',
-      render: (_: any, record: any) => <span>{record?.post_comment.length || 0}</span>
-    },
-    {
-        title: 'Date posted',
-        dataIndex: 'createdAt',
-        key: 'createdAt',
-        render: (k: string) => new Date(k).toLocaleDateString() + " " + new Date(k).toLocaleTimeString()
-      },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_: any, record: any) => {
-        const menu = (
-          <Menu>
-            <Menu.Item key="edit" icon={<Edit size={16} />} onClick={() => navigate('/community-details')}>
-              Edit
-            </Menu.Item>
-            <Menu.Item key="delete" icon={<Trash size={16} />} onClick={() => showDeleteConfirm(record)}>
-              Ban
-            </Menu.Item>
-          </Menu>
-        );
-        return (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <Button icon={<Eye size={16} />} />
-          </Dropdown>
-        );
-      },
-    },
-  ];
+  },
+];
+
 
 
 
