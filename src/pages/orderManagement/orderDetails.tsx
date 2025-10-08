@@ -37,6 +37,8 @@ const OrderDetails: React.FC = () => {
     });
 
 interface Order {
+  totalAmount?: number;
+  status?: string;
   _id?: string;
   createdAt?: string;
   user?: {
@@ -159,10 +161,10 @@ const order: Order | undefined = Details_order?.order;
         </Col>
         <Col>
           <label style={{ marginRight: 15 }}>Change Status: </label>
-          <Select defaultValue="Pending" style={{ width: 150 }}>
+          <Select defaultValue={order?.status} style={{ width: 150 }}>
             <Option value="pending">Pending</Option>
-            <Option value="completed">Completed</Option>
             <Option value="dispatched">Dispatched</Option>
+            <Option value="delivered">Delivered</Option>
             <Option value="refund">Refund</Option>
           </Select>
         </Col>
@@ -186,12 +188,12 @@ const order: Order | undefined = Details_order?.order;
                   <Input disabled value={order?.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
-                  <label>Payment</label>
+                  <label>Payment Method</label>
                   <Input disabled value="Card" className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
-                  <label>Shipping Method</label>
-                  <Input disabled value="$189.00" className="custom-input" />
+                  <label>Shipping Total</label>
+                  <Input disabled value={`$${order?.totalAmount ?? 0}`} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Tracking Number</label>
@@ -199,7 +201,7 @@ const order: Order | undefined = Details_order?.order;
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Status</label>
-                  <Input disabled value="In Stock" className="custom-input" />
+                  <Input disabled value={order?.status} className="custom-input" />
                 </Col>
               </Row>
             </Col>
