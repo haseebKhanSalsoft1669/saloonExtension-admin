@@ -27,7 +27,17 @@ export const store = configureStore({
     [giftCardSlice.reducerPath]: giftCardSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware).concat(authApi.middleware).concat(verifySlice.middleware).concat(orderSlice.middleware).concat(userManagementSlice.middleware).concat(categorySlice.middleware).concat(productSlice.middleware).concat(contentSlice.middleware).concat(couponSlice.middleware).concat(giftCardSlice.middleware), // Add RTK Query middleware
+    getDefaultMiddleware()
+  .concat(apiSlice.middleware)
+  .concat(authApi.middleware)
+  .concat(verifySlice.middleware)
+  .concat(orderSlice.middleware)
+  .concat(userManagementSlice.middleware)
+  .concat(categorySlice.middleware)
+  .concat(productSlice.middleware)
+  .concat(contentSlice.middleware)
+  .concat(couponSlice.middleware)
+  .concat(giftCardSlice.middleware), // Add RTK Query middleware
 });
 
 setupListeners(store.dispatch);

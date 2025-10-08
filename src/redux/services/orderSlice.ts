@@ -28,8 +28,19 @@ export const orderSlice = createApi({
                 url: `/getOrderByUser?page=${page}&limit=${limit}`,
                 method: "GET",
             }),
+        }),
+         getAllOrder: builder.query({
+            query: ({ page, limit , keyword}) => ({
+                url: `/get-all-orders`,
+                method: "GET",
+                 params: {
+                    page,
+                    limit,
+                    keyword
+                }
+                
+            }),
         })
-
 
 
     }),
@@ -38,5 +49,6 @@ export const orderSlice = createApi({
 export const {
     useAddOrderMutation,
     useGetorderByIdQuery,
-    useGetOrderByUserQuery
+    useGetOrderByUserQuery,
+    useGetAllOrderQuery
 } = orderSlice

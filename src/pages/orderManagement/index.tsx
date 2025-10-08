@@ -4,7 +4,7 @@ import { Check, Eye, Search, X } from 'lucide-react'; // ✅ Importing icons
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Common.css';
-
+import { useGetAllOrderQuery } from '../../redux/services/orderSlice'
 const { Search: AntSearch } = Input;
 
 interface OrderData {
@@ -15,18 +15,23 @@ interface OrderData {
   total: string;
   paymentStatus: string;
   status: 'Pending' | 'Completed' | 'Dispatched' | 'Refund';
+  user?: {
+    fullName? : string
+    }
 }
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'Pending':
-      return '#DD9F00';
-    case 'Completed':
+    case 'pending':
+      return '#e58e63ff';
+    case 'delivered':
       return '#00B31D';
-    case 'Dispatched':
+    case 'dispatched':
       return '#2D308B';
-    case 'Refund':
+    case 'refund':
       return '#FF0000';
+    case 'confirmed':
+      return '#0eef99ff';
     default:
       return '#ccc';
   }
@@ -36,48 +41,54 @@ const OrderManagement: React.FC = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
 
-  const data: OrderData[] = [
-    {
-      key: '1',
-      orderNumber: 'ORD-00123',
-      customerName: 'John Doe',
-      date: '2025-05-01',
-      total: '$120.00',
-      paymentStatus: "paid",
-      status: 'Pending',
-    },
-    {
-      key: '2',
-      orderNumber: 'ORD-00124',
-      customerName: 'Jane Smith',
-      date: '2025-05-02',
-      total: '$180.00',
-      paymentStatus: "paid",
-      status: 'Completed',
-    },
-    {
-      key: '3',
-      orderNumber: 'ORD-00125',
-      customerName: 'Alex Johnson',
-      date: '2025-05-03',
-      total: '$240.00',
-      paymentStatus: "paid",
-      status: 'Dispatched',
-    },
-    {
-      key: '4',
-      orderNumber: 'ORD-00125',
-      customerName: 'Alex Johnson',
-      date: '2025-05-03',
-      total: '$240.00',
-      paymentStatus: "refunded",
-      status: 'Refund',
-    },
-  ];
+  const {data  } = useGetAllOrderQuery({})
 
-  const filteredData = data.filter((item) =>
-    item.orderNumber.toLowerCase().includes(searchText.toLowerCase()) ||
-    item.customerName.toLowerCase().includes(searchText.toLowerCase())
+  console.log("fdata",data);
+  
+
+  // const data: OrderData[] = [
+  //   {
+  //     key: '1',
+  //     orderNumber: 'ORD-00123',
+  //     customerName: 'John Doe',
+  //     date: '2025-05-01',
+  //     total: '$120.00',
+  //     paymentStatus: "paid",
+  //     status: 'Pending',
+  //   },
+  //   {
+  //     key: '2',
+  //     orderNumber: 'ORD-00124',
+  //     customerName: 'Jane Smith',
+  //     date: '2025-05-02',
+  //     total: '$180.00',
+  //     paymentStatus: "paid",
+  //     status: 'Completed',
+  //   },
+  //   {
+  //     key: '3',
+  //     orderNumber: 'ORD-00125',
+  //     customerName: 'Alex Johnson',
+  //     date: '2025-05-03',
+  //     total: '$240.00',
+  //     paymentStatus: "paid",
+  //     status: 'Dispatched',
+  //   },
+  //   {
+  //     key: '4',
+  //     orderNumber: 'ORD-00125',
+  //     customerName: 'Alex Johnson',
+  //     date: '2025-05-03',
+  //     total: '$240.00',
+  //     paymentStatus: "refunded",
+  //     status: 'Refund',
+  //   },
+  // ];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const filteredData = data?.orders?.filter((item : any) =>
+    item?._id?.toLowerCase().includes(searchText.toLowerCase()) ||
+    item?.user?.fullName.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const columns: ColumnsType<OrderData> = [
@@ -89,30 +100,32 @@ const OrderManagement: React.FC = () => {
     },
     {
       title: 'Order Number',
-      dataIndex: 'orderNumber',
-      key: 'orderNumber',
+      dataIndex: '_id',
+      key: '_id',
     },
     {
       title: 'Customer Name',
       dataIndex: 'customerName',
       key: 'customerName',
+      render: (_ ,record) => <span>{record?.user?.fullName}</span>
     },
     {
       title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (k) => new Date(k).toLocaleDateString() + " " + new Date(k).toLocaleTimeString()
     },
     {
       title: 'Total',
-      dataIndex: 'total',
-      key: 'total',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
     },
     {
       title: 'Payment',
-      dataIndex: 'paymentStatus',
-      key: 'paymentStatus',
+      dataIndex: 'status',
+      key: 'status',
       render: (status: string) => {
-        const isPaid = status.toLowerCase() === 'paid';
+        const isPaid = status?.toLowerCase() === 'confirmed';
         return (
           <div style={{ color: isPaid ? 'green' : 'red', display: 'flex', alignItems: 'center', gap: 6 }}>
             
