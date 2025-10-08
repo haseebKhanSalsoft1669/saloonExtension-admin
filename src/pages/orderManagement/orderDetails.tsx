@@ -1,7 +1,9 @@
 import { Card, Col, Input, Row, Select, Space, Table, Typography } from 'antd';
 import { ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate  , useLocation } from 'react-router-dom';
+import type { ColumnsType } from 'antd/es/table';
+import { UPLOADS_URL } from '../../constants/api'
+import { useGetOrderByIdQuery } from '../../redux/services/orderSlice'
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -10,76 +12,140 @@ interface ProductData {
   key: string;
   productName: string;
   code: string;
-  qty: number;
+  quantity: number;
   price: string;
   subtotal: string;
   image: string;
+  productId: {
+    name? : string;
+    variants?: {
+      varationImage?: string[];
+      price?: number;
+    }[];
+  };
 }
 
 const OrderDetails: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const orders = location.state?.order;
+  const { data: Details_order } = useGetOrderByIdQuery(
+    { id: orders?._id } , 
+    { skip: !orders?._id , 
+      refetchOnMountOrArgChange: true  , 
+      refetchOnReconnect: true
+    });
 
-  const productData: ProductData[] = [
-    {
-      key: '1',
-      productName: 'Raw Bundles 20"',
-      code: 'GFTHAIR1',
-      qty: 23,
-      price: '$189.00',
-      subtotal: '$150',
-      image: './images/product-1.png', // Replace with actual image URL
-    },
-    {
-      key: '2',
-      productName: 'Raw Bundles 22"',
-      code: 'GFTHAIR2',
-      qty: 15,
-      price: '$200.00',
-      subtotal: '$180',
-      image: './images/product-2.png',
-    },
-    {
-      key: '3',
-      productName: 'Raw Bundles 24"',
-      code: 'GFTHAIR3',
-      qty: 12,
-      price: '$210.00',
-      subtotal: '$190',
-      image: './images/product-3.png',
-    },
-  ];
+interface Order {
+  totalAmount?: number;
+  status?: string;
+  _id?: string;
+  createdAt?: string;
+  user?: {
+    fullName?: string;
+    email?: string;
+    phone?: string;
+  };
+  billingAddress?: {
+    address?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    zipCode?: string;
+  };
+  shippingAddress?: {
+    address?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    zipCode?: string;
+  };
+  products?: ProductData[];
+  // Add other fields as needed
+}
 
-  const columns = [
+const order: Order | undefined = Details_order?.order;
+  
+  
+
+  // const productData: ProductData[] = [
+  //   {
+  //     key: '1',
+  //     productName: 'Raw Bundles 20"',
+  //     code: 'GFTHAIR1',
+  //     qty: 23,
+  //     price: '$189.00',
+  //     subtotal: '$150',
+  //     image: './images/product-1.png', // Replace with actual image URL
+  //   },
+  //   {
+  //     key: '2',
+  //     productName: 'Raw Bundles 22"',
+  //     code: 'GFTHAIR2',
+  //     qty: 15,
+  //     price: '$200.00',
+  //     subtotal: '$180',
+  //     image: './images/product-2.png',
+  //   },
+  //   {
+  //     key: '3',
+  //     productName: 'Raw Bundles 24"',
+  //     code: 'GFTHAIR3',
+  //     qty: 12,
+  //     price: '$210.00',
+  //     subtotal: '$190',
+  //     image: './images/product-3.png',
+  //   },
+  // ];
+
+  const columns : ColumnsType<ProductData>  = [
     {
       title: 'Product Name / Type',
       dataIndex: 'productName',
       key: 'productName',
       render: (_: string, record: ProductData) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src={record.image} alt="product" width={40} height={40} />
-          <span>{record.productName}</span>
+          <img
+            src={
+              UPLOADS_URL +
+              (record?.productId?.variants?.[0]?.varationImage?.[0] ?? '')
+            }
+            alt="product"
+            width={40}
+            height={40}
+          />
+          <span>{record.productId.name}</span>
         </div>
       ),
     },
-    {
-      title: 'Gift Card Code',
-      dataIndex: 'code',
-      key: 'code',
-    },
+    // {
+    //   title: 'Gift Card Code',
+    //   dataIndex: 'code',
+    //   key: 'code',
+    // },
     {
       title: 'Qty',
-      dataIndex: 'qty',
-      key: 'qty',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (text: string, record: ProductData) => (
+        <span>{record.quantity}</span>
+      ),
     },
     {
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
+      render: (text: string, record: ProductData) => (
+        <span>${record?.productId?.variants?.[0]?.price}</span>
+      ),
     },
     {
       title: 'Subtotal',
       dataIndex: 'subtotal',
       key: 'subtotal',
+      render: (text: string, record: ProductData) => (
+        <span>${(record?.productId?.variants?.[0]?.price ?? 0) * (record.quantity ?? 0)}</span>
+      ),
     },
   ];
 
@@ -95,10 +161,10 @@ const OrderDetails: React.FC = () => {
         </Col>
         <Col>
           <label style={{ marginRight: 15 }}>Change Status: </label>
-          <Select defaultValue="Pending" style={{ width: 150 }}>
+          <Select defaultValue={order?.status} style={{ width: 150 }}>
             <Option value="pending">Pending</Option>
-            <Option value="completed">Completed</Option>
             <Option value="dispatched">Dispatched</Option>
+            <Option value="delivered">Delivered</Option>
             <Option value="refund">Refund</Option>
           </Select>
         </Col>
@@ -115,19 +181,19 @@ const OrderDetails: React.FC = () => {
               <Row>
                 <Col xs={24} md={12} lg={8}>
                   <label>Order ID</label>
-                  <Input disabled value="Raw Bundles 20" className="custom-input" />
+                  <Input disabled value={order?._id} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Date</label>
-                  <Input disabled value="BW22-BL" className="custom-input" />
+                  <Input disabled value={order?.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
-                  <label>Payment</label>
-                  <Input disabled value="Clip-Ins" className="custom-input" />
+                  <label>Payment Method</label>
+                  <Input disabled value="Card" className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
-                  <label>Shipping Method</label>
-                  <Input disabled value="$189.00" className="custom-input" />
+                  <label>Shipping Total</label>
+                  <Input disabled value={`$${order?.totalAmount ?? 0}`} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Tracking Number</label>
@@ -135,7 +201,7 @@ const OrderDetails: React.FC = () => {
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Status</label>
-                  <Input disabled value="In Stock" className="custom-input" />
+                  <Input disabled value={order?.status} className="custom-input" />
                 </Col>
               </Row>
             </Col>
@@ -147,23 +213,31 @@ const OrderDetails: React.FC = () => {
               <Row>
                 <Col xs={24} md={12} lg={8}>
                   <label>Name</label>
-                  <Input disabled value="Abc" className="custom-input" />
+                  <Input disabled value={order?.user?.fullName} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Email</label>
-                  <Input disabled value="abc@gmail.com" className="custom-input" />
+                  <Input disabled value={order?.user?.email} className="custom-input" />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                   <label>Phone Number</label>
-                  <Input disabled value="+12335588971" className="custom-input" />
+                  <Input disabled value={order?.user?.phone} className="custom-input" />
                 </Col>
-                <Col xs={24} md={12} lg={8}>
+                <Col xs={24} md={12} lg={24}>
                   <label>Billing Address</label>
-                  <Input disabled value="Lorem ipsum dhshda jadji fdyqgdq" className="custom-input" />
+                  <Input 
+                  disabled 
+                  value={order?.billingAddress?.address + " " + order?.billingAddress?.city + " , " + order?.billingAddress?.state + " , " + order?.billingAddress?.country + " - " + order?.billingAddress?.zipCode} 
+                  className="custom-input" 
+                  />
                 </Col>
-                <Col xs={24} md={12} lg={8}>
+                <Col xs={24} md={12} lg={24}>
                   <label>Shipping Address</label>
-                  <Input disabled value="Lorem ipsum dhshda jadji fdyqgdq" className="custom-input" />
+                  <Input 
+                  disabled 
+                  value={order?.shippingAddress?.address + " " + order?.shippingAddress?.city + " , " + order?.shippingAddress?.state + " , " + order?.shippingAddress?.country + " - " + order?.shippingAddress?.zipCode} 
+                  className="custom-input" 
+                  />
                 </Col>
               </Row>
             </Col>
@@ -176,7 +250,7 @@ const OrderDetails: React.FC = () => {
           <Card className="table-card">
             <Table
               columns={columns}
-              dataSource={productData}
+              dataSource={order?.products}
               pagination={false}
               rowKey="key"
               scroll={{ x: 'max-content' }}

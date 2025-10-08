@@ -16,9 +16,9 @@ export const orderSlice = createApi({
             }),
         }),
 
-        getorderById: builder.query({
+        getOrderById: builder.query({
             query: ({ id }) => ({
-                url: `/getOrder/${id}`,
+                url: `/get-order-by-id/${id}`,
                 method: "GET",
             }),
         }),
@@ -48,7 +48,7 @@ export const orderSlice = createApi({
 
 export const {
     useAddOrderMutation,
-    useGetorderByIdQuery,
+    useGetOrderByIdQuery,
     useGetOrderByUserQuery,
     useGetAllOrderQuery
 } = orderSlice
