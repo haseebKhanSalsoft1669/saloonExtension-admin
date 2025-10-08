@@ -41,9 +41,9 @@ const OrderManagement: React.FC = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
 
-  const {data  } = useGetAllOrderQuery({})
+  const {data  } = useGetAllOrderQuery({ page: 1, limit: 100, keyword: searchText });
 
-  console.log("fdata",data);
+  
   
 
   // const data: OrderData[] = [
